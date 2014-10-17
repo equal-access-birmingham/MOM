@@ -1,5 +1,5 @@
 <?php
-$con=new mysqli("localhost","root","a37gBSI09LahjF1a8103573Qs92Sn22n","eabdb");
+$con=new mysqli("localhost","root","Ao2415gJs8936O6Ke2504hxj5550N3O3","eabdb");
 //put in $_SESSION['user_name'] after Welcome
 echo "
   <h1>Hi, Welcome <h1>
