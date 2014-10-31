@@ -16,7 +16,7 @@
 define("DB_HOST", "localhost");
 define("DB_NAME", "eabdb");
 define("DB_USER", "eabdb");
-define("DB_PASS", "zow3YL8WKm6N7rVeGJ2mcvJnBpHpJ8Px");
+define("DB_PASS", "W7X2h3592khX2ORf2a60f4H5mj4a256a");
 
 /**
  * Configuration for: Cookies
