@@ -1,4 +1,4 @@
-<?php include('header.php'); ?>
+<?php include('includes/header.php'); ?>
 
 <?php
 if ($login->isUserLoggedIn() == true) 
@@ -30,4 +30,4 @@ else {
 }
 ?>
 
-<?php include('footer.php'); ?>
+<?php include('includes/footer.php'); ?>
