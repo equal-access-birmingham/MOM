@@ -24,10 +24,22 @@ catch(PDOException $e)
 $user_id = $_SESSION['user_id'];
 
 //put in $_SESSION['user_name'] after Welcome
-echo "
-  <h1>Hi, Welcome <h1>
-  <h2>Volunteer Schedule</h2>";
+
 $query=
+"SELECT person_table.fname, person_table.lname, person_table.suffname
+	FROM `person_table`
+	JOIN `login_relation_table`
+	ON person_table.person_id = login_relation_table.person_id
+	WHERE login_relation_table.user_id = :user_id"; 
+$stmt=$con->prepare ($query);
+$stmt->bindValue (':user_id', $user_id, PDO::PARAM_STR);
+$stmt->execute ();
+$result = $stmt->fetch();
+
+echo "
+  <h1>Hi, Welcome " . $result['fname'] . " " . $result['lname'] . " " . $result['suffname'] . "</h1>";
+echo "
+  <h2>Volunteer Schedule</h2>";
 "SELECT temp4.role_name, temp4.program_name, temp4.date, temp4.arrival_time, location_table.address
 	FROM (
 		SELECT arrival_time_table.arrival_time, temp3.role_name, temp3.program_name, temp3.date, temp3.location_id
