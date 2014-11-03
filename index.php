@@ -4,6 +4,7 @@
 if ($login->isUserLoggedIn() == true) 
 { 
 	echo "
+		<a href=\"index.php\">" . WORDING_HOME_PAGE . "</a>
 		<a href=\"view.php\">" . WORDING_DATA_VIEW . "</a>
 		<a href=\"entry_test3.php\">" . WORDING_EVENT_REGISTRATION . "</a>
 		<a href=\"index.php?logout\">" . WORDING_LOGOUT . "</a>

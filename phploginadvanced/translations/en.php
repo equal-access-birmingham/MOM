@@ -106,4 +106,5 @@ define("WORDING_REGISTRATION_REQUIREMENTS", "Fields with an asterisk are require
 define("WORDING_REGISTRATION_GENDER", "Gender*");
 define("WORDING_UPDATE", "Update Accounts");
 define("WORDING_REGISTRATION_PHONE_NUMBER", "Preferred Contact Number*");
+define("WORDING_HOME_PAGE", "Home");
 ?>
