@@ -14,6 +14,13 @@ catch(PDOException $e)
 	echo 'Connection failed: ' . $e->getMessage();
 }
 
+	echo "
+		<a href=\"index.php\">" . WORDING_HOME_PAGE . "</a>
+		<a href=\"view.php\">" . WORDING_DATA_VIEW . "</a>
+		<a href=\"entry_test3.php\">" . WORDING_EVENT_REGISTRATION . "</a>
+		<a href=\"index.php?logout\">" . WORDING_LOGOUT . "</a>
+    ";
+
 $user_id = $_SESSION['user_id'];
 
 //put in $_SESSION['user_name'] after Welcome
