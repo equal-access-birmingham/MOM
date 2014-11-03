@@ -5,7 +5,7 @@
 
 
 
-<!-- create the registration object. when this object is created, it will do all registration stuff automatically
+<!-- create the registration object. when this object is created, it will do all of the registration stuff automatically
 so this single line handles the entire registration process. -->
 <?php $registration = new Registration(); ?>
 
