@@ -6,7 +6,7 @@
  *
  * @author Panique
  * @link http://www.php-login.net
- * @link https://github.com/panique/php-login-advanced/
+ * @link https://github.com/panique/phploginadvanced/
  * @license http://opensource.org/licenses/MIT MIT License
  */
 
