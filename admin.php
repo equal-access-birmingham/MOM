@@ -1,7 +1,14 @@
 
 
 <?php include('includes/header-require_admin.php'); ?>
-
+<?php
+	echo "
+		<a href=\"index.php\">" . WORDING_HOME_PAGE . "</a>
+		<a href=\"view.php\">" . WORDING_DATA_VIEW . "</a>
+		<a href=\"entry_test3.php\">" . WORDING_EVENT_REGISTRATION . "</a>
+		<a href=\"index.php?logout\">" . WORDING_LOGOUT . "</a>
+		"
+?>
     
 <?php
 //PERMISSIONS IS NOT CURRENTLY WORKING
@@ -9,7 +16,7 @@
 //need to define MESSAGE_RESET_PERSONAL_ACCOUNT_ERROR, MESSAGE_RESET_ACCOUNT_CONFIRM, MESSAGE_DELETE_PERSONAL_ACCOUNT_ERROR, MESSAGE_DELETE_USER_CONFIRM
 try
 {
-	$db_connection = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
+	$con = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
 }
 catch(PDOException $e)
 {
@@ -19,11 +26,24 @@ catch(PDOException $e)
 
 // Set up query for entire table
 $query = "SELECT * FROM `users`;";
-$query_user_table = $db_connection->prepare($query);
+$query_user_table = $con->prepare($query);
 $query_user_table->execute();
+
+$query=
+"SELECT person_table.fname, person_table.lname, person_table.suffname
+	FROM `person_table`
+	JOIN `login_relation_table`
+	ON person_table.person_id = login_relation_table.person_id
+	WHERE login_relation_table.user_id = :user_id"; 
+$stmt=$con->prepare ($query);
+$stmt->bindValue (':user_id', $_SESSION['user_id'], PDO::PARAM_STR);
+$stmt->execute ();
+$result = $stmt->fetch();
+
 ?>
 
-<h2><?php echo $_SESSION['user_name']; ?> <?php echo WORDING_ADMIN_EDIT_ACCOUNTS; ?></h2>
+
+<h2><?php echo $result['fname'] . " " . $result['lname'] . " " . $result['suffname'] . WORDING_ADMIN_EDIT_ACCOUNTS; ?></h2>
 
 <a href="register.php"><?php echo WORDING_REGISTER_NEW_ACCOUNT; ?></a>
 
@@ -67,6 +87,3 @@ while($data = $query_user_table->fetchObject())
 </form>
 
 <br />
-
-<!-- backlink -->
-<a href="index.php"><?php echo WORDING_BACK_TO_LOGIN; ?></a>

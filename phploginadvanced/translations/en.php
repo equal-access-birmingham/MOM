@@ -57,7 +57,7 @@ define("MESSAGE_PHONE_NUMBER_EMPTY", "Phone Number is Empty!");
 
 // views
 define("WORDING_ADMIN_ADDITION", " has been made an administrator.");
-define("WORDING_ADMIN_EDIT_ACCOUNTS", "You are logged in as an admin and can edit account permissions here.");
+define("WORDING_ADMIN_EDIT_ACCOUNTS", ", you are logged in as an admin and can edit account permissions here.");
 define("WORDING_ADMIN_LINK", "Admin");
 define("WORDING_ADMIN_REMOVAL", " has been removed from administrative status.");
 define("WORDING_BACK_TO_LOGIN", "Back to Login Page");

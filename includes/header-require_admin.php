@@ -33,7 +33,7 @@ $permission = new Permissions();
 
 
 // ... ask if we are logged in here:
-if ($login->isUserLoggedIn() == false && $permission->isUserAdmin() == false) {
+if ($permission->isUserAdmin() == false) {
     // the user is logged in and is admin. you can do whatever you want here.
     // this page is demo of the admin functions
     header("Location: index.php?logout");
