@@ -58,13 +58,6 @@ class Permissions
 					$this->messages[] = "Cannot remove all admins!";
 				}
 				
-				// Resets accounts
-				// Receives 'reset_account' array from html
-				if(isset($_POST['reset_account']))
-				{
-					$this->resetAccountConfirm($_POST['reset_account']);
-				}
-				
 				// Starts deletion process
 				if(isset($_POST['delete_account']))
 				{
@@ -78,6 +71,11 @@ class Permissions
 			// Outside 'update' POST as page will refresh due to use of PHP
 			elseif(isset($_POST['confirm_action']))
 			{
+				if(isset($_SESSION['admin_delete_list']) && isset($_SESSION['admin_add_list']))
+				{
+					$this->modifyAdminStatus($_SESSION['admin_delete_list'], $_SESSION['admin_add_list']);
+				}
+
 				if(isset($_SESSION['delete_users_array']))
 				{
 					foreach($_SESSION['delete_users_array'] as $delete_id)
@@ -86,13 +84,6 @@ class Permissions
 					}
 				}
 				
-				if(isset($_SESSION['reset_user_accounts_array']))
-				{
-					foreach($_SESSION['reset_user_accounts_array'] as $reset_id)
-					{
-						$this->resetAccount($reset_id);
-					}
-				}
 			}
 		}
 	}
@@ -199,145 +190,113 @@ class Permissions
 	 */
 	public function modifyAdminStatusConfirm($admin_confirm_array)
 	{
+		// Stores user_id's of users to have admin status deleted or added respectively
 		
-	}
+		$admin_delete_list = array();
+		$admin_add_list = array();
 
-	/**
-	 * Adds/removes admin status to user upon selection
-	 * This function depends on the admins having their checkboxes automatically selected upon loading the user table
-	 */
-	private function modifyAdminStatus($admin_array)
-	{
-		
 		if($this->databaseConnection())
 		{
 			/**
-			 * This part removes administrative status
+			 * This portion creates the list of users to have admin status deleted
 			 */
 			 
-			// Selects all current admins before update submission
+			// Selects all admins in the database
 			$query = "SELECT * FROM `users` WHERE `admin` = 1;";
 			$query_current_admins = $this->db_connection->prepare($query);
 			$query_current_admins->execute();
-			
+
 			while($admin_data = $query_current_admins->fetchObject())
 			{
 				// Compares the current admins with the array of user submitted for admin status update
-				if(!in_array($admin_data->user_id, $admin_array))
+				if(!in_array($admin_data->user_id, $admin_confirm_array))
 				{
-					// If current admin is not in submitted list, then they have been removed from admin status
-					// Note that this is heavily dependent on automatic selection of all admins in the displayed user table
-					$query = "UPDATE `users` SET `admin` = 0 WHERE `user_id` = :user_id;";
-					$query_remove_admin = $this->db_connection->prepare($query);
-					$query_remove_admin->bindValue(":user_id", $admin_data->user_id, PDO::PARAM_STR);
-					$query_remove_admin->execute();
-					
-					$this->messages[] = $admin_data->user_name  . WORDING_ADMIN_REMOVAL;
+					// User is not allowed to remove their own admin status
+					if($admin_data->user_name == $_SESSION['user_name'])
+					{
+						$this->errors[] = MESSAGE_ADMIN_STATUS_REMOVAL_ERROR;
+					}
+					else
+					{
+						// If current admin is not in submitted list, then they have been removed from admin status
+						// Note that this is heavily dependent on automatic selection of all admins in the displayed user table
+						$this->messages[] = MESSAGE_ADMIN_STATUS_REMOVED . $admin_data->user_name;
+						$admin_delete_list[] = $admin_data->user_id;
+					}
 				}
 			}
-			
+
 			/**
 			 * This part adds administrative status
 			 */
 			
 			// Goes through the submitted admin list from admin table
-			foreach($admin_array as $user_id)
+			foreach($admin_confirm_array as $user_id)
 			{
 				$result_row = $this->getUserDataById($user_id);
 				
 				// If the user is not already an admin ...
 				if($result_row->admin == 0)
 				{
-					// Make the user an admin
-					$query = "UPDATE `users` SET `admin` = 1 WHERE `user_id` = :user_id;";
-					$query_admin = $this->db_connection->prepare($query);
-					$query_admin->bindValue(':user_id', $user_id, PDO::PARAM_STR);
-					$query_admin->execute();
-					
-					$this->messages[] = $result_row->user_name . WORDING_ADMIN_ADDITION;
+					// Prompt to make the user an admin
+					$this->messages[] = MESSAGE_ADMIN_STATUS_ADDED . $result_row->user_name;
+					$admin_add_list[] = $result_row->user_id;
 				}
 			}
+
+			// variable holds information that a reset_account (action) has been selected (for display of confirm button in html perhaps)
+			$this->confirm_action_prompt = true;
+		
+			// Sets session variables to be used for actual action of deleting or adding admin status
+			$_SESSION['admin_delete_list'] = $admin_delete_list;
+			$_SESSION['admin_add_list'] = $admin_add_list;
 		}
 		else
 		{
 			$this->errors[] = MESSAGE_DATABASE_ERROR;
 		}
 	}
-	
-	/**
-	 * Places a prompt into $this->messages for confirmation of admin's choice to reset the accounts
-	 */
-	public function resetAccountConfirm($user_array)
-	{
-		for($i = 0; $i < count($user_array); $i++)
-		{
-			$result_row = $this->getUserDataById($user_array[$i]);
 
-			// Prevents admin from resetting their own account
-			if($result_row->user_name == $_SESSION['user_name'])
-			{
-				$this->messages[] = MESSAGE_RESET_PERSONAL_ACCOUNT_ERROR;
-				array_slice($user_array, $i, 1, true);
-			}
-			else
-			{
-				$this->messages[] = MESSAGE_RESET_ACCOUNT_CONFIRM . $result_row->user_name;
-			}
-		}
-		
-		// variable holds information that a reset_account (action) has been selected (for display of confirm button in html perhaps)
-		$this->confirm_action_prompt = true;
-		
-		// Gives back the array of selected users for resetting account in a $_SESSION variable
-		$_SESSION['reset_user_accounts_array'] = $user_array;
-	}
-	
 	/**
-	 * Resets a user's account and password upon selection (used when user allows temp password to expire)
+	 * Adds/removes admin status to user upon selection
+	 * This function depends on the admins having their checkboxes automatically selected upon loading the user table
 	 */
-	public function resetAccount($user_id)
+	private function modifyAdminStatus($admin_delete_list, $admin_add_list)
 	{
-		// Need to get user data for the email
-		$result_row = $this->getUserDataById($user_id);
-		// Creates a new random 10 character password for the user
-		$user_password = $this->createRandomPassword();
-		
-		// check if we have a constant HASH_COST_FACTOR defined (in config/hashing.php),
-		// if so: put the value into $hash_cost_factor, if not, make $hash_cost_factor = null
-		$hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
-
-		// crypt the user's password with the PHP 5.5's password_hash() function, results in a 60 character hash string
-		// the PASSWORD_DEFAULT constant is defined by the PHP 5.5, or if you are using PHP 5.3/5.4, by the password hashing
-		// compatibility library. the third parameter looks a little bit shitty, but that's how those PHP 5.5 functions
-		// want the parameter: as an array with, currently only used with 'cost' => XX.
-		$user_password_hash = password_hash($user_password, PASSWORD_DEFAULT, array('cost' => $hash_cost_factor));
-		
-		$query = "UPDATE `users` SET `user_password_hash` = :user_password_hash, `user_registration_datetime` = now(), `user_password_change` = 0 WHERE `user_id` = :user_id;";
-		$query_reset_account_update = $this->db_connection->prepare($query);
-		$query_reset_account_update->bindValue(":user_password_hash", $user_password_hash, PDO::PARAM_STR);
-		$query_reset_account_update->bindValue(":user_id", $user_id, PDO::PARAM_STR);
-		$query_reset_account_update->execute();
-		
-		// unsets the variable so that it cannot be re-triggered through refreshing
-		unset($_SESSION['reset_user_accounts_array']);
-		
-		if($query_reset_account_update)
+		if($this->databaseConnection())
 		{
-			// Send an email with the user name and password for the account
-			if($this->sendResetAccountEmail($result_row->user_name, $result_row->user_email, $user_password))
+			/**
+			 * This part removes administrative status
+			 */
+			
+			foreach($admin_delete_list as $deleted_admin)
 			{
-				// Mail sent successfully
-				$this->messages[] = MESSAGE_RESET_ACCOUNT_MAIL_SENT;
+				$query = "UPDATE `users` SET `admin` = 0 WHERE `user_id` = :user_id;";
+				$query_remove_admin = $this->db_connection->prepare($query);
+				$query_remove_admin->bindValue(":user_id", $deleted_admin, PDO::PARAM_STR);
+				$query_remove_admin->execute();
 			}
-			else
+			
+			/**
+			 * This part adds administrative status
+			 */
+			
+			foreach($admin_add_list as $added_admin)
 			{
-				// Error message for inability to send email
-				$this->errors[] = MESSAGE_RESET_ACCOUNT_MAIL_ERROR;
+				// Make the user an admin
+				$query = "UPDATE `users` SET `admin` = 1 WHERE `user_id` = :user_id;";
+				$query_admin = $this->db_connection->prepare($query);
+				$query_admin->bindValue(':user_id', $added_admin, PDO::PARAM_STR);
+				$query_admin->execute();
 			}
+
+			// Unsets variables so that they can't be re-triggered with a page refresh
+			unset($_SESSION['admin_delete_list']);
+			unset($_SESSION['admin_add_list']);
 		}
 		else
 		{
-			$this->errors[] = MESSAGE_RESET_ACCOUNT_FAILED;
+			$this->errors[] = MESSAGE_DATABASE_ERROR;
 		}
 	}
 	
@@ -360,52 +319,6 @@ class Permissions
 		return $random_password_str;
 	}
 	
-	/**
-	 * Creates an email for an account reset
-	 */
-	public function sendResetAccountEmail($user_name, $user_email, $user_password)
-	{
-		$mail = new PHPMailer;
-		
-		// please look into the config/config.php for much more info on how to use this!
-		// use SMTP or use mail()
-		if(EMAIL_USE_SMTP) {
-			// Set mailer to use SMTP
-			$mail->IsSMTP();
-			//useful for debugging, shows full SMTP errors
-			//$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
-			// Enable SMTP authentication
-			$mail->SMTPAuth = EMAIL_SMTP_AUTH;
-			// Enable encryption, usually SSL/TLS
-			if(defined(EMAIL_SMTP_ENCRYPTION)) {
-				$mail->SMPTSecure = EMAIL_SMTP_ENCRYPTION;
-			}
-			// Specify host server
-			$mail->Host = EMAIL_SMTP_HOST;
-			$mail->Username = EMAIL_SMTP_USERNAME;
-			$mail->Password = EMAIL_SMTP_PASSWORD;
-			$mail->Port = EMAIL_SMTP_PORT;
-		} else {
-			$mail->IsMail();
-		}
-		
-		$mail->From = EMAIL_RESET_ACCOUNT_FROM;
-		$mail->FromName = EMAIL_RESET_ACCOUNT_FROM_NAME;
-		$mail->AddAddress($user_email);
-		$mail->Subject = EMAIL_RESET_ACCOUNT_SUBJECT;
-		
-		// Body of the email
-		$mail->Body = EMAIL_RESET_ACCOUNT_BODY . "\n
-			\tUser Name: $user_name
-			\tPassword: $user_password";
-		
-		if(!$mail->Send()) {
-			$this->errors[] = MESSAGE_RESET_ACCOUNT_MAIL_NOT_SENT . $mail->ErrorInfo;
-			return false;
-		} else {
-			return true;
-		}
-	}
 	
 	/**
 	 * The sole purpose of this function is to create a prompt for deletion in case of accidental selection
@@ -423,7 +336,7 @@ class Permissions
 			if($result_row->user_name == $_SESSION['user_name'])
 			{
 				$this->errors[] = MESSAGE_DELETE_PERSONAL_ACCOUNT_ERROR;
-				array_slice($user_array, $i, 1, true);
+				array_splice($user_array, $i, 1, true);
 			}
 			else
 			{
@@ -443,6 +356,7 @@ class Permissions
 	 */
 	private function deleteAccount($user_id)
 	{
+	
 		$query = "DELETE FROM `users` WHERE `user_id` = :user_id;";
 		$query_delete_account = $this->db_connection->prepare($query);
 		$query_delete_account->bindValue(":user_id", $user_id, PDO::PARAM_STR);
@@ -452,3 +366,4 @@ class Permissions
 		unset($_SESSION['delete_users_array']);
 	}
 }
+?>

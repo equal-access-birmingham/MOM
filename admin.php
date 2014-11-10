@@ -8,6 +8,17 @@
 		<a href=\"entry_test3.php\">" . WORDING_EVENT_REGISTRATION . "</a>
 		<a href=\"index.php?logout\">" . WORDING_LOGOUT . "</a>
 		"
+
+if($permissions->confirm_action_prompt)
+{
+	// This is just one way to trigger the $_POST['confirm_action'] variable in the Permissions class
+	echo "
+<form method=\"post\" action=\"admin.php\">
+  <input type=\"submit\" name=\"confirm_action\" value=\"Confirm\" />
+  <input type=\"submit\" value=\"No, Go Back!\" />
+</form>
+	";
+}
 ?>
     
 <?php
@@ -58,7 +69,6 @@ $result = $stmt->fetch();
       <th>User Email</th>
       <th>User Registration Date</th>
       <th>Admin</th>
-      <th>Reset Account</th>
       <th>Delete Account</th>
     </tr>
 <?php
@@ -78,7 +88,6 @@ while($data = $query_user_table->fetchObject())
 
 // Creates checkbox arrays for "reset_account" and "delete_account" so that multiple actions can be selected at once
 	echo "
-      <td><input type=\"checkbox\" name=\"reset_account[]\" value=\"$data->user_id\" /></td>
       <td><input type=\"checkbox\" name=\"delete_account[]\" value=\"$data->user_id\" /></td>
     </tr>\n";
 }
