@@ -11,6 +11,7 @@ define("MESSAGE_ACCOUNT_NOT_ACTIVATED", "Your account is not activated yet. Plea
 define("MESSAGE_CAPTCHA_WRONG", "Captcha was wrong!");
 define("MESSAGE_COOKIE_INVALID", "Invalid cookie");
 define("MESSAGE_DATABASE_ERROR", "Database connection problem.");
+define("MESSAGE_DELETE_USER_CONFIRM", "Delete the following user: ");
 define("MESSAGE_EMAIL_ALREADY_EXISTS", "This email address is already registered. Please use the \"I forgot my password\" page if you don't remember it.");
 define("MESSAGE_EMAIL_CHANGE_FAILED", "Sorry, your email changing failed.");
 define("MESSAGE_EMAIL_CHANGED_SUCCESSFULLY", "Your email address has been changed successfully. New email address is ");
