@@ -26,15 +26,16 @@ for ($i = 0; $i < 9; $i++)
     <label for="clinic_repeats">How many consecutive events?</label>
     <input id="clinic_repeats" type="text" pattern="[0-9]{1,99}" name="clinic_repeats" required />
     <br />
+    </form>
     <input type="submit" name="eventcreation" value="Submit" />
     
     <h1>Create Screening Event</h1>
     
-<form method="get" action="admin_screening_create_success.php" name="screeningform">
+<form method="get" action="admin_event_create_screening.php" name="screeningform">
     <br />
     
-    <label for="program_id">Screening?</label>
-    <select name="program_id" required>
+    <label for="program_type_id">Screening?</label>
+    <select name="program_type_id" required>
     
       <option value="">No</option>
       <option value="3">Yes</option>
@@ -50,11 +51,12 @@ for ($i = 0; $i < 9; $i++)
 
     <label for="location_name">Location Name</label>
     <input id="location_name" type="text" pattern="[a-zA-Z0-9!@#$%^&* ]{1,99}" name="location_name" required />
+
     
     <br />
     
     <label for="location_address">Location Address</label>
-    <input id="location" type="text" pattern="[a-zA-Z0-9!@#$%^&* ]{1,99}" name="location_address" required />
+    <input id="location" type="text" pattern="[a-zA-Z0-9!@#$%^&*\. ]{1,99}" name="location_address" required />
 
 	<br />
 	
@@ -143,7 +145,7 @@ for($x; $x < $y; $x++)
 	<select class="form-control" name="end_time_hour" required>
 	<option value="">--Hour--</option>
 <?php
-    for ($i=0; $i<=12; $i++)
+    for ($i=1; $i<=12; $i++)
     {
         ?>
             <option value="<?php echo $i;?>"><?php echo $i;?></option>
@@ -181,7 +183,7 @@ for($x; $x < $y; $x++)
 	<select class="form-control" name="arrival_time_hour" required>
 	<option value="">--Hour--</option>
 <?php
-    for ($i=0; $i<=12; $i++)
+    for ($i=1; $i<=12; $i++)
     {
         ?>
             <option value="<?php echo $i;?>"><?php echo $i;?></option>

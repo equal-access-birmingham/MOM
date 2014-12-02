@@ -1,15 +1,21 @@
 
 
 <?php include('includes/header-require_admin.php'); ?>
+
+
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+	
 	echo "
 		<a href=\"index.php\">" . WORDING_HOME_PAGE . "</a>
 		<a href=\"view.php\">" . WORDING_DATA_VIEW . "</a>
 		<a href=\"entry_test3.php\">" . WORDING_EVENT_REGISTRATION . "</a>
 		<a href=\"index.php?logout\">" . WORDING_LOGOUT . "</a>
-		"
+		";
 
-if($permissions->confirm_action_prompt)
+
+if($permission->confirm_action_prompt)
 {
 	// This is just one way to trigger the $_POST['confirm_action'] variable in the Permissions class
 	echo "
@@ -18,13 +24,12 @@ if($permissions->confirm_action_prompt)
   <input type=\"submit\" value=\"No, Go Back!\" />
 </form>
 	";
+
 }
+
 ?>
     
 <?php
-//PERMISSIONS IS NOT CURRENTLY WORKING
-// Create a database connection or return error and terminate admin page
-//need to define MESSAGE_RESET_PERSONAL_ACCOUNT_ERROR, MESSAGE_RESET_ACCOUNT_CONFIRM, MESSAGE_DELETE_PERSONAL_ACCOUNT_ERROR, MESSAGE_DELETE_USER_CONFIRM
 try
 {
 	$con = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
@@ -72,6 +77,7 @@ $result = $stmt->fetch();
       <th>Delete Account</th>
     </tr>
 <?php
+
 // Creates table
 while($data = $query_user_table->fetchObject())
 {
@@ -91,8 +97,10 @@ while($data = $query_user_table->fetchObject())
       <td><input type=\"checkbox\" name=\"delete_account[]\" value=\"$data->user_id\" /></td>
     </tr>\n";
 }
+
 ?>
-  </table>
+
+   </table>
 </form>
 
 <br />
