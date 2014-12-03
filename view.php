@@ -4,6 +4,7 @@ ini_set("display_errors", 1);
 
 require_once("includes/header-require_login.php");
 
+// Sets up the database connection
 try
 {
 	$con = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
@@ -21,26 +22,29 @@ catch(PDOException $e)
 		<a href=\"index.php?logout\">" . WORDING_LOGOUT . "</a>
     ";
 
+// user_id from the Login() class
 $user_id = $_SESSION['user_id'];
 
-//put in $_SESSION['user_name'] after Welcome
-
+// MySQL query for full name of user based on $user_id
 $query=
 "SELECT person_table.fname, person_table.lname, person_table.suffname
 	FROM `person_table`
 	JOIN `login_relation_table`
 	ON person_table.person_id = login_relation_table.person_id
 	WHERE login_relation_table.user_id = :user_id"; 
-$stmt=$con->prepare ($query);
-$stmt->bindValue (':user_id', $user_id, PDO::PARAM_STR);
-$stmt->execute ();
-$result = $stmt->fetch();
+$stmt_user_full_name = $con->prepare ($query);
+$stmt_user_full_name->bindValue (':user_id', $user_id, PDO::PARAM_STR);
+$stmt_user_full_name->execute ();
+$result = $stmt_user_full_name->fetch();
 
 echo "
   <h1>Hi, Welcome " . $result['fname'] . " " . $result['lname'] . " " . $result['suffname'] . "</h1>";
 echo "
   <h2>Volunteer Schedule</h2>";
-"SELECT temp4.role_name, temp4.program_name, temp4.date, temp4.arrival_time, location_table.address
+
+// MySQL query for user's schedule
+// Captures all dates the user is signed up for
+$query = "SELECT temp4.role_name, temp4.program_name, temp4.date, temp4.arrival_time, location_table.address
 	FROM (
 		SELECT arrival_time_table.arrival_time, temp3.role_name, temp3.program_name, temp3.date, temp3.location_id
 			FROM(
@@ -50,14 +54,14 @@ echo "
 							FROM (
 								SELECT program_relation_table.program_id, program_relation_table.date, program_relation_table.location_id, temp.role_id
 									FROM (
-										SELECT signup_table.program_id, signup_table.role_id
+										SELECT signup_table.program_relation_id, signup_table.role_id
 											FROM `signup_table`
 											JOIN `login_relation_table`
 											ON signup_table.login_relation_id = login_relation_table.login_relation_id
 											WHERE login_relation_table.user_id = :user_id
 									) AS temp
 									JOIN program_relation_table
-									ON temp.program_id = program_relation_table.program_id
+									ON temp.program_relation_id = program_relation_table.program_relation_id
 							) AS temp1
 							JOIN program_table
 							ON temp1.program_id = program_table.program_id
@@ -71,14 +75,24 @@ echo "
 	JOIN location_table
 	ON temp4.location_id = location_table.location_id";
 
-$stmt=$con->prepare ($query);
-$stmt->bindValue (':user_id', $user_id, PDO::PARAM_STR);
-$stmt->execute ();  
-$i=1;
-while($result = $stmt->fetch())
-{
+$stmt_user_schedule = $con->prepare ($query);
+$stmt_user_schedule->bindValue (':user_id', $user_id, PDO::PARAM_STR);
+$stmt_user_schedule->execute ();
 
-	$date_array = explode("-", $result['date']);
+$event_count = 1;
+
+while($result = $stmt_user_schedule->fetch())
+{
+	/**
+	 * Sets up date and time in separate objects for easy format (format below in echo)
+	 * Date --> "F j, Y" gives "January 1, 2013"
+	 * Time --> "g:i A" gives "1:30 PM"
+	 */
+	$date = new DateTime($result['date'], new DateTimeZone('AMERICA/Chicago'));
+	$time = new DateTime($result['arrival_time'], new DateTimeZone('AMERICA/Chicago'));
+	//$date_array = explode("-", $result['date']);
+
+	/*
 	switch($date_array[1])
 	{
 		case 1:
@@ -133,17 +147,18 @@ while($result = $stmt->fetch())
 		$hour = $time[0];
 		$new_time = $hour . ":" . $time[1] . " AM";
 	}
-
+	*/
 	echo "
-        <h3>Volunteer Time $i</h23
+        <h3>Volunteer Time $event_count</h3>
           <ul>
             <li>Role: " . $result['role_name']. "</li>
             <li>Program: " . $result['program_name'] . "</li>
-            <li>Date: " . $new_date . "</li>
-            <li>Arrival Time: " . $new_time . "</li>
+            <li>Date: " . $date->format("F j, Y") . "</li>
+            <li>Arrival Time: " . $time->format("g:i A") . "</li>
             <li>Address: " . $result['address'] . "</li> 
           </ul>
           ";
-	$i++;
+
+	$event_count++;
 }
 ?>
