@@ -1,0 +1,434 @@
+html, body {
+	height: 100%; /*for carousel*/
+}
+
+/**
+ * Navbar Customization Section
+ */
+.nav-logo {
+	height: 35px;
+	margin-top:-6px;
+}
+
+.donate {
+	font-family: "Century Gothic", Arial, sans-serif;
+	font-weight: bold;
+	width: 100px;
+	margin-left: 10px;
+	float: right;
+}
+
+/* Modals */
+.modal-logo {
+	height: 25px;
+}
+
+.modal-body-header {
+	margin-top: -15px;
+	margin-bottom: 15px;
+	font-family: "Century Gothic", Arial, sans-serif;
+}
+/* The EAB Navbar */
+
+.navbar-eab {
+	background-color: #31704b;
+	border-color: #214d33;
+}
+
+.navbar-eab .navbar-nav > li > a {
+	color: #e0e0e0;
+}
+
+.navbar-eab .navbar-nav > li > a:hover,
+.navbar-eab .navbar-nav > li > a:focus {
+	color: #fff;
+	background-color: transparent;
+}
+
+.navbar-eab .navbar-toggle {
+	border-color: #333;
+}
+.navbar-eab .navbar-toggle:hover,
+.navbar-eab .navbar-toggle:focus {
+	background-color: #419363;
+}
+.navbar-eab .navbar-toggle .icon-bar {
+	background-color: #e0e0e0;
+}
+.navbar-eab .navbar-collapse,
+.navbar-eab .navbar-form {
+	border-color: #101010;
+}
+
+.navbar-eab .navbar-nav > .open > a,
+.navbar-eab .navbar-nav > .open > a:hover,
+.navbar-eab .navbar-nav > .open > a:focus {
+	color: #fff;
+	background-color: #224d33;
+}
+@media (max-width: 767px) {
+	.navbar-eab .navbar-nav .open .dropdown-menu > li > a {
+		color: #e0e0e0;
+	}
+	.navbar-eab .navbar-nav .open .dropdown-menu > li > a:hover,
+	.navbar-eab .navbar-nav .open .dropdown-menu > li > a:focus {
+		color: #fff;
+		background-color: transparent;
+	}
+	
+	.donate {
+		margin-left: 0;
+		float: none;
+	}
+	
+}
+
+/**
+ * Carousel Section
+ */
+.carousel, .carousel-inner, .item, .active {
+	height: 100%;
+	background-color:#777;
+}
+
+.carousel-caption {
+	right: 0;
+	left: 0;
+}
+
+@media (min-width: 768px) {
+	.carousel-caption .container-fluid {
+		background-color: rgb(0, 0, 0);
+		background-color: rgba(0, 0, 0, 0.6);
+	}
+}
+
+.carousel-caption .container .row {
+	position: relative;
+	margin-right: auto;
+}
+
+.carousel-caption h1 {
+	font-weight: bold;
+	font-family: "Century Gothic", Arial, sans-serif;
+}
+
+.carousel-caption a {
+	color: #ffffff;
+	-webkit-transition: color .25s ease-in-out;
+	transition: color .25s ease-in-out;
+}
+
+.carousel-caption a:hover, 
+.carousel-caption a:focus {
+	text-decoration: none;
+	color: #e0e0e0;
+}
+
+.carousel-caption p {
+	margin-bottom: 20px;
+}
+
+.carousel-btn {
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 50%;
+	margin-top: -20px;
+}
+
+.carousel-image {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+/**
+ * Hero Image
+ */
+.hero-img {
+	width: 100%;
+	height: 100%;
+	padding-top: 70px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.hero-img-caption {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	bottom: 40px;
+	color: #fff;
+}
+
+@media (min-width: 768px) {
+	.hero-img-caption {
+		background-color: rgb(0, 0, 0);
+		background-color: rgba(0, 0, 0, 0.6);
+	}
+}
+
+.hero-img-caption p, .hero-img-caption a {
+	margin-bottom: 20px;
+}
+
+/**
+ * Scroll Button
+ */
+
+.scroll {
+	position: absolute;
+	z-index: 20;
+	bottom: 0;
+	left:0;
+	right:0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.scroll-background {
+	position:relative;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width: 100px;
+	background-color: white;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.scroll a, .scroll a:hover, .scroll a:focus {
+	text-decoration: none;
+	color: black;
+	font-family: "Century Gothic", Arial, sans-serif;
+}
+.scroll .scroll-text {
+	display: none;
+	font-size: 21px;
+}
+
+.scroll .scroll-background .glyphicon {
+	display: block;
+}
+
+.scroll-to {
+	position: absolute;
+	height: 50px;
+	bottom: 0;
+}
+
+/**
+ * Body Content
+ */
+.body-content-header {
+	font-family: "Century Gothic", Arial, sans-serif;
+	margin-bottom: 30px;
+}
+
+.body-section {
+	width: 100%;
+	padding-bottom: 25px;
+}
+
+/* Display */
+.table {
+	display: table;
+}
+
+.table-cell {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 10px;
+}
+
+.table-img {
+	width: 100%;
+	max-width: 400px;
+}
+
+/* Colors */
+.bg-green {
+	background: #31704b;
+}
+
+.bg-green h1 {
+	color: #fff;
+}
+
+.bg-green p {
+	color: #fff;
+}
+
+.bg-green a, .bg-green a:hover{
+	color: #fff;
+}
+
+.bg-white {
+	background: #fff;
+}
+
+.green {
+	color: #31704b;
+}
+
+.white {
+	color: #fff;
+}
+
+.black {
+	color: #000;
+}
+
+/* Trifecta */
+
+.trifecta {
+	display: inline-block;
+	height: 100px;
+	width: 100%;
+	margin: 20px 20px 20px 0;
+	padding-bottom: 115px;
+	border-radius: 5px;
+	text-align: center;
+	background-color: #fff;
+	background-position: center;
+	background-size: 1000px;
+	background-repeat: no-repeat;
+}
+
+@media (min-width: 992px) {
+	.trifecta {
+		height: 120px;
+	}
+}
+
+/* EAB Button */
+.btn-eab {
+	color: #fff;
+	font-weight: bold;
+	background-color: #878234;
+	border-color: #75702d;
+	-webkit-transition: color .25s ease-in-out;
+	transition: color .25s ease-in-out;
+}
+
+.btn-eab:hover,
+.btn-eab:focus,
+.btn-eab:active,
+.btn-eab.active,
+.open .dropdown-toggle.btn-eab {
+	color: #e0e0e0;
+	background-color: #6b6729;
+	border-color: #4e4b1e;
+}
+.btn-eab:active,
+.btn-eab.active,
+.open .dropdown-toggle.btn-eab {
+	background-image: none;
+	background-image: none;
+}
+
+.btn-vol {
+	margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+	.btn-lg-dyn {
+		padding: 10px 16px;
+		font-size: 18px;
+		line-height: 1.33;
+		border-radius: 6px;
+	}
+}
+
+/**
+ * Footer
+ */
+.footer-section {
+	margin: 25px 0 20px;
+	background-color: #ffffff;
+}
+
+.fb-like, .twitter-follow-button {
+	margin: 5px 0 5px 0;
+}
+
+.footer-section .row {
+	padding-bottom: 10px;
+}
+
+.icons {
+	margin-top: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 10px;
+}
+
+.icons-section {
+	width: 100%;
+	background-color: #31704b;
+}
+
+.footer-section iframe {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+/**
+ * Big Events Page
+ */
+.sponsors .row {
+	margin-top: 50px;
+}
+
+.sponsors .row-artificial {
+	margin-bottom: 50px;
+}
+
+.sponsors img {
+	width: 100%;
+}
+
+/**
+ * Images
+ */
+.location-img {
+	background-image: url("../../images/Location.jpg");
+}
+
+.patient-img {
+	background-image: url("../../images/Patient3.jpg");
+}
+
+.eab-img {
+	background-image: url("../../images/AboutEAB.jpg");
+}
+
+.race-home-img {
+	background-image: url("../../images/Heart+Sole.jpg");
+}
+
+.race-img {
+	background-image: url("../../images/Heart+SolePage.jpg"); /* Events Page */
+}
+
+.coming-soon-img {
+	background-image: url("../../images/comingSoon.jpg");
+}
+
+.about-img {
+	background-image: url("../../images/about.jpg");
+}
+
+.donate-img {
+	background-image: url("../../images/Patient1.png");
+}
+
+.crowd_funding-img {
+	background-image: url("../../images/crowd_funding.png");
+}

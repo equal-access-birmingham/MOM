@@ -1,9 +1,14 @@
+<?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+?>
 <html>
   <head>
     <title>Create Event(s)</title>
   </head>
   <body>
     <h1>Create Clinic Event</h1>
+<!--drop down menu to selct either EAB or M-Power-->
 <form method="get" action="admin_event_create_success.php" name="eventcreationform">
     <label for="program_id">Create Event</label>
     <select name="program_id" required>
@@ -15,13 +20,49 @@
     <select name="date" required>
 	<option value="" selected>--Select--</option>
 <?php
-$date = new DateTime("now", new DateTimeZone('America/Chicago'));
-for ($i = 0; $i < 9; $i++)
+// Setting up dates to find first day in line, Sunday or Wednesday
+$dateSunday = new DateTime("now", new DateTimeZone('America/Chicago'));
+$dateWednesday = new DateTime("now", new DateTimeZone('America/Chicago'));
+
+$dateSunday->modify("next Sunday");
+$dateWednesday->modify("next Wednesday");
+
+if($dateSunday < $dateWednesday)
 {
-	echo "    <option value=\"" . $date->modify("next Sunday")->format("Y-m-d") . "\">" . $date->format("m-d-Y") . "</option>";
+	$day_array = array("Sunday", "Wednesday");
+	$date = $dateSunday;
+}
+else
+{
+	$day_array = array("Wednesday", "Sunday");
+	$date = $dateWednesday;
+}
+
+$week = 1;
+
+for($week; $week <= 8; $week++)
+{
+	if($week == 1)
+	{
+		echo "<option value=\"" . $date->format("Y-m-d") . "\">" . $date->format("l, F j, Y") . "</option>";
+		
+		$date->modify("next " . $day_array[1]);
+		
+		echo "<option value=\"" . $date->format("Y-m-d") . "\">" . $date->format("l, F j, Y") . "</option>";
+	}
+	else
+	{
+		foreach($day_array as $day)
+		{
+			$add = "next $day";
+			$date->modify($add)->format("Y-m-d");
+			echo "<option value=\"" . $date->format("Y-m-d") . "\">" . $date->format("l, F j, Y") . "</option>";
+		}
+	}
 }
 ?>
     </select>
+<!--This allows creation of repeated events on the same day of the week at the same time-->
     <br />
     <label for="clinic_repeats">How many consecutive events?</label>
     <input id="clinic_repeats" type="text" pattern="[0-9]{1,99}" name="clinic_repeats" required />
