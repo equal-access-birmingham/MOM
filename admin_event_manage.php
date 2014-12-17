@@ -1,5 +1,6 @@
 <?php
 require('includes/header-require_admin.php');
+require_once('includes/menu_sign_in.php');
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -99,8 +100,9 @@ $query_user_table->execute();
 ?>
 
 <!-- Table of all users encapsulated by a form to allow checkboxes for quickly modifying account permissions -->
+<table class="table table-hover"> 
 <form method="get" action="admin_event_manage.php">
-  <input type="submit" name="admin_event_manage" value="Delete Events" /> 
+  <input type="submit" name="admin_event_manage" value="Delete Events" />
   <table border="1">
     <tr>
       <th>Select</th>
@@ -127,6 +129,7 @@ while($data = $query_user_table->fetchObject())
 ?>
   </table>
 </form>
+</table>
 
 
 <br />
