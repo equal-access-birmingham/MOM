@@ -39,9 +39,9 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Volunteer <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="coming_soon.php">Schedule</a></li>
-                <li><a href="coming_soon.php">Register</a></li>
-                <li><a href="coming_soon.php">Upcoming Events</a></li>
+                <li><a href="view.php">Schedule</a></li>
+                <li><a href="register.php">Register</a></li>
+                <li><a href="http://eab.path.uab.edu/coming_soon.php">Upcoming Events</a></li>
               </ul>
             </li>
                 <!-- Using bootstrap.js to call the modal (faster than PHP) -->
@@ -57,10 +57,10 @@ if($permission->isUserAdmin() == true)
             <li class=\"dropdown\">
               <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Admin <b class=\"caret\"></b></a>
               <ul class=\"dropdown-menu\">
-                <li><a href=\"\">Admin Home</a></li>
-                <li><a href=\"\">Create Event(s)</a></li>
-                <li><a href=\"\">Modify Event(s)</a></li>
-                <li><a href=\"admin_management.php\">Register Users for Events</a></li>
+                <li><a href=\"admin_hq.php\">Admin Home</a></li>
+                <li><a href=\"admin_event_create.php\">Create Event(s)</a></li>
+                <li><a href=\"admin_event_manage.php\">Modify Event(s)</a></li>
+                <li><a href=\"http://eab.path.uab.edu/coming_soon.php\">Register Users for Events</a></li>
               </ul>
             </li>";
 }

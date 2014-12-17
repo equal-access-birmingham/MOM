@@ -1,24 +1,5 @@
-/**
- * Page rules
- */
 html, body {
 	height: 100%; /*for carousel*/
-	margin: 0;
-	padding: 0;
-}
-
-.content-wrapper {
-	min-height: 100%;
-	position: relative;
-}
-
-.content {
-	padding-bottom: 50px;
-}
-
-.content-wrapper {
-	min-height: 100%;
-	position: relative;
 }
 
 /**
@@ -196,14 +177,6 @@ html, body {
 }
 
 /**
- * No carousel or hero-image
- */
-
-.no-image {
-	padding-top: 50px;
-}
-
-/**
  * Scroll Button
  */
 
@@ -259,7 +232,7 @@ html, body {
 
 .body-section {
 	width: 100%;
-	padding-bottom: 80px;
+	padding-bottom: 25px;
 }
 
 /* Display */
@@ -375,15 +348,6 @@ html, body {
 /**
  * Footer
  */
-
-/* This is only for jQuery to keep the footer at the bottom */
-.footer-drop {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-}
-
-
 .footer-section {
 	margin: 25px 0 20px;
 	background-color: #ffffff;
@@ -462,9 +426,9 @@ html, body {
 }
 
 .donate-img {
-	background-image: url("../../images/Patient1.jpg");
+	background-image: url("../../images/Patient1.png");
 }
 
 .crowd_funding-img {
-	background-image: url("../../images/crowd_funding.jpg");
+	background-image: url("../../images/crowd_funding.png");
 }
