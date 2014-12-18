@@ -40,7 +40,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Volunteer <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="view.php">Schedule</a></li>
-                <li><a href="register.php">Register</a></li>
+                <li><a href="http://eab.path.uab.edu/coming_soon.php">Register</a></li>
                 <li><a href="http://eab.path.uab.edu/coming_soon.php">Upcoming Events</a></li>
               </ul>
             </li>
@@ -50,6 +50,8 @@
 
 
 <?php
+
+
 // Activates "Admin" dropdown on site if the logged in user is an administrator
 if($permission->isUserAdmin() == true)
 {
@@ -59,14 +61,17 @@ if($permission->isUserAdmin() == true)
               <ul class=\"dropdown-menu\">
                 <li><a href=\"admin_hq.php\">Admin Home</a></li>
                 <li><a href=\"admin_event_create.php\">Create Event(s)</a></li>
-                <li><a href=\"admin_event_manage.php\">Modify Event(s)</a></li>
+                <li><a href=\"admin_event_manage.php\">View/Delete Event(s)</a></li>
                 <li><a href=\"http://eab.path.uab.edu/coming_soon.php\">Register Users for Events</a></li>
               </ul>
             </li>";
 }
 elseif($permission->isUserAdmin() == false)
 {
-	echo "        <a href=\"error.php\">Questions?</a>";
+	      echo "  
+	        <li>
+	          <a href=\"error.php\">Questions?</a>
+	        </li>";  
 }
 
 			

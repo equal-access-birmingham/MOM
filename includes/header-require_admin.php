@@ -39,3 +39,9 @@ if ($permission->isUserAdmin() == false) {
     header("Location: index.php?logout");
 }
 ?>
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin!</title>

@@ -5,28 +5,50 @@ require_once('includes/menu_sign_in.php');
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-
-
 if(isset($_GET['admin_event_manage']))
 {
-echo "
-	<form method=\"get\" action=\"admin_event_manage.php\">
-";
-$delete_event=$_GET['delete_event'];
-	// This is just one way to trigger the $_POST['confirm_action'] variable in the Permissions class
-foreach($delete_event as $event_id)
-{
+	$delete_event=$_GET['delete_event'];
 	echo "
-  <input type=\"text\" name=\"delete_event[]\" value=\"$event_id\" style=\"display: none;\" />\n";
-}
-echo "
-  <input type=\"submit\" name=\"confirm_action\" value=\"Confirm\" />
-  <input type=\"submit\" value=\"No, Go Back!\" />
-</form>
+	<script>
+		$(document).ready(function() {
+			$('#confirm_delete').modal('toggle');
+		});
+	</script>
 	";
 }
+?>
+
+<div id="confirm_delete" div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <img class="modal-logo" sec="/images/EABLogo.png" alt="EAB Logo" />
+    </div>
+    <div class="modal-body">
+      <form method="get" action="" role="form">
+<?php
+if(isset($_GET['delete_event']))
+{
+foreach($delete_event as $event_id)
+{
+	echo "  
+	    <input type=\"text\" name=\"delete_event[]\" value=\"$event_id\" style=\"display: none;\" />";
+}
+}
+?>
+        <input type="submit" class="btn btn-default" name="confirm_action" value="Confirm">
+        <input type="submit" class="btn btn-default" value="No, Go Back!">
+      </form>
+    </div>
+  </div>
+</div>
 
 
+<?php
 // Create a database connection or return error and terminate admin page
 try
 {
@@ -98,17 +120,27 @@ $query_user_table = $db_connection->prepare($query);
 $query_user_table->execute();
 
 ?>
+-->
+<div class="container no-image">
 
+
+	<h2>Scheduled Events</h2>
 <!-- Table of all users encapsulated by a form to allow checkboxes for quickly modifying account permissions -->
-<table class="table table-hover"> 
+
 <form method="get" action="admin_event_manage.php">
-  <input type="submit" name="admin_event_manage" value="Delete Events" />
-  <table border="1">
+	<div class="row">
+		<div class="col-xs-4 col-xs-offset-1">  
+		  <div class="form-group">
+		    <input type="submit" name="admin_event_manage" class="btn btn-danger" value="Delete Events" />
+		  </div>
+		</div>
+	</div>
+  <table class="table table-hover text-center"> 
     <tr>
-      <th>Select</th>
-      <th>Date</th>
-      <th>Event</th>
-      <th>Location</th>
+      <th class="text-center">Select</th>
+      <th class="text-center">Date</th>
+      <th class="text-center">Event</th>
+      <th class="text-center">Location</th>
       
     </tr>
 <?php
@@ -128,8 +160,10 @@ while($data = $query_user_table->fetchObject())
 }
 ?>
   </table>
+  </table>
 </form>
-</table>
+
+</div>
 
 
 <br />
