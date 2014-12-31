@@ -1,16 +1,16 @@
     <!-- Core Bootstrap -->
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Social Icons -->
-    <link href="/bootstrap/socialIcons/bootstrap-social.css" rel="stylesheet">
+    <link href="bootstrap/socialIcons/bootstrap-social.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="/bootstrap/css/custom.css" rel="stylesheet">
-    <link href="/bootstrap/socialIcons/assets/css/font-awesome.css" rel="stylesheet">
+    <link href="bootstrap/css/custom.css" rel="stylesheet">
+    <link href="bootstrap/socialIcons/assets/css/font-awesome.css" rel="stylesheet">
     
     <!-- Core jQuery -->
-    <script src="/bootstrap/js/jquery.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
         
     <!-- Favicon -->
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/ico" />
@@ -85,7 +85,7 @@ else
             <li class=\"dropdown\">
               <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Profile <b class=\"caret\"></b></a>
               <ul class=\"dropdown-menu\">\n";
-
+/*
 	if($login->isUserVerified() == false)
 	{
 		// if user has not verified their account, show verification page
@@ -96,7 +96,7 @@ else
 		// if user has verified account, show profile edit page
 		echo "                <li><a href=\"/account/edit_profile.php\">Edit Profile</a></li>";
 	}
-
+*/
 	echo "
                 <li><a href=\"/index.php?logout\">Logout</a></li>
               </ul>

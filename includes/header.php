@@ -21,7 +21,7 @@ require_once('phploginadvanced/classes/Login.php');
 require_once('phploginadvanced/classes/Permissions.php');
 
 $login = new Login();
-$permission = new Permissions();
+$permissions = new Permissions();
 ?>
 <?php
 // show potential errors / feedback (from login object)
