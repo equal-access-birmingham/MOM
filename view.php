@@ -82,18 +82,35 @@ $stmt_user_schedule->execute();
       <h2>Volunteer Schedule</h2>
 
 <?php
+// Counts events for echoing
 $event_count = 1;
-while($result = $stmt_user_schedule->fetch())
+
+// Allows single execution to check if there is even one 
+do
 {
-	/**
-	 * Sets up date and time in separate objects for easy format (format below in echo)
-	 * Date --> "F j, Y" gives "January 1, 2013"
-	 * Time --> "g:i A" gives "1:30 PM"
-	 */
-	$date = new DateTime($result['date']);
-	$time = new DateTime($result['arrival_time']);
-	
-	echo "
+	$result = $stmt_user_schedule->fetch();
+
+	if(!$result && $event_count == 1)
+	{
+		echo "
+      <p>
+        You are not currently scheduled for any events.  Go to the Schedule Event 
+        to sign up for a volunteer spot with EAB.
+      </p>\n";
+
+		break;
+	}
+	else if($result)
+	{
+		/**
+		 * Sets up date and time in separate objects for easy format (format below in echo)
+		 * Date --> "F j, Y" gives "January 1, 2013"
+		 * Time --> "g:i A" gives "1:30 PM"
+		 */
+		$date = new DateTime($result['date']);
+		$time = new DateTime($result['arrival_time']);
+		
+		echo "
       <h3>Volunteer Time $event_count</h3>
       <ul>
         <li>Role: " . $result['role_name']. "</li>
@@ -102,8 +119,10 @@ while($result = $stmt_user_schedule->fetch())
         <li>Arrival Time: " . $time->format("g:i A") . "</li>
         <li>Address: " . $result['address'] . "</li> 
       </ul>\n";
-	$event_count++;
-}
+		$event_count++;
+	}
+} while($result = $stmt_user_schedule->fetch());
+
 ?>
     </div>
 
