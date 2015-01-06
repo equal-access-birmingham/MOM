@@ -15,9 +15,6 @@ $date = $_GET['date'];
 $role = $_GET['role_id'];
 $login_relation_id = $_GET['login_relation_id'];
 
-// Variable to check if insert was successful
-$insert_ok = 0;
-
 try
 {
 	$con = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
@@ -66,6 +63,9 @@ $stmt_double_trouble->execute();
 $result_double_trouble = $stmt_double_trouble->fetch();
 if(!$result_double_trouble['count'])
 {
+	// Variable to check if insert was successful
+	$insert_ok = 0;
+	
 	//! means "not" -- i.e., that hasnt occurred, so insert signup data
 	//insert data into database
 // insertion
@@ -142,7 +142,7 @@ if(isset($_GET['schedule_volunteers']))
 
 <?php
 // confirm insertion and alert 
-if($insert_ok) //(insertion successful)
+if($insert_ok && !$result_double_trouble['count']) //(insertion successful)
 {
 	// echo information
 	echo "
