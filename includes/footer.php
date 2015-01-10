@@ -1,6 +1,14 @@
   </body>
   <footer>
+
     <script>
+      // Schedule login -- allows login straight to schedule when not logged in
+      $(document).ready(function() {
+        $('#schedule_signin').click(function() {
+          $('#signin_form').attr("action", "/mom/");
+        });
+      });
+
       /* Scroll Button Script */
       $(document).ready(function() { 
         $('.scroll-background').hover(function() {
@@ -27,7 +35,7 @@
       });
 
       /** 
-       * Keeps the footer at the bottom of the page
+       * Keeps the footer at the bottom of the page, no matter how little content is on the page
        * adds or removes footer-drop class (in css) based on whether footer is too high
        ** footer-drop class:  position: absolute; bottom: 0; width: 100%;
        */
@@ -85,29 +93,41 @@
     <!-- Footer Information Content -->
     <section class="footer-section">
       <div class="container">
+        <hr />
         <div class="row">
           <div class="col-sm-4 col-xs-6">
             <address>
-              Church of the Reconciler <br />
-              112 14th St N, <br />
-              Birmingham, AL 35203
+              <a href="https://maps.google.com?saddr=Current+Location&daddr=112+14th+Street+North+Birmingham+Alabama+35203" target="_blank">
+                Church of the Reconciler <br />
+                112 14th St N, <br />
+                Birmingham, AL 35203
+              </a>
             </address>
-            <p><a href="tell:2052598836">(205) 259-8836</a></p>
+            <p><a href="tel:2052598836">(205) 259-8836</a></p>
             <p><a href="mailto:equalaccess@uab.edu">equalaccess@uab.edu</a></p>
           </div>
           
           <!-- Quick Links Section -->
           <div class="col-sm-4 col-xs-6">
             <p style="font-weight:bold; font-size:20px;">Quicklinks</p>
-            <p><a href="#" onclick="$('#volunteerModal').modal('toggle');">Volunteer Sign Up</a></p>
-            <p><a href="coming_soon.php">Screenings</a></p>
+<?php
+// Location of the mom app
+$directory = substr($_SERVER['SCRIPT_NAME'], 0, 5);
+
+// Do not display volunteer link in footer if the user is in the application or is already logged in
+if($directory != "/mom/" && $login->isUserLoggedIn() == false)
+{
+	echo "            <p><a href=\"#\" onclick=\"$('#volunteerModal').modal('toggle');\">Volunteer Sign Up</a></p>";
+}
+?>
+            <p><a href="/coming_soon.php">Screenings</a></p>
             <p><a href="http://churchofthereconciler.com/" target="_blank">Church of the Reconciler</a></p>
             <p><a href="http://www.mpowerministries.org/" target="_blank">M-Power</a></p>
           </div>
           
           <!-- EAB Video -->
           <div class="col-sm-4">
-            <iframe src="http://player.vimeo.com/video/37989682?title=0&amp;byline=0&amp;portrait=0&amp;color=1e6b52" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+            <iframe src="http://player.vimeo.com/video/37989682?title=0&byline=0&portrait=0&color=1e6b52" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
           </div>
         </div>
       </div>

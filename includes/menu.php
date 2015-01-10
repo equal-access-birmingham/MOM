@@ -1,17 +1,17 @@
     <!-- Core Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Social Icons -->
-    <link href="bootstrap/socialIcons/bootstrap-social.css" rel="stylesheet">
+    <link href="/bootstrap/socialIcons/bootstrap-social.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="bootstrap/css/custom.css" rel="stylesheet">
-    <link href="bootstrap/socialIcons/assets/css/font-awesome.css" rel="stylesheet">
+    <link href="/bootstrap/css/custom.css" rel="stylesheet">
+    <link href="/bootstrap/socialIcons/assets/css/font-awesome.css" rel="stylesheet">
     
-    <!-- Core jQuery -->
-    <script src="bootstrap/js/jquery.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-        
+    <!-- Core jQuery:  placed at the end for faster loading -->
+    <script src="/bootstrap/js/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/ico" />
   </head>
@@ -29,8 +29,7 @@
             <span class="icon-bar"></span>
           </button>
           
-          <!-- New: Note that the height is decreased by one pixel to allow appropriate navbar when using small window -->
-          <a class="navbar-brand" href="/"><img class="nav-logo" style="height: 34px;" src="/images/EABLogoInverse.png" /></a>
+          <a class="navbar-brand" href="/"><img class="nav-logo" src="/images/EABLogoInverse.png" /></a>
         </div>
         
         <!-- Menu items -->
@@ -43,7 +42,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Patients <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="/coming_soon.php">Clinic Information</a></li>
+                <li><a href="/patient_services.php">Services</a></li>
                 <li><a href="/coming_soon.php">Screenings</a></li>
               </ul>
             </li>
@@ -51,12 +50,22 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Volunteers <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="/coming_soon.php">Information</a></li>
+                <li><a href="/volunteer_information.php">How To</a></li>
+<?php
+if($login->isUserLoggedIn() == true)
+{
+	echo "                <li><a href=\"/mom/\">Medical Office Manager (MOM)</a></li>\n";
+}
+else
+{
+	echo "                <li><a href=\"#\" id=\"schedule_signin\" onclick=\"$('#volunteerModal').modal('toggle');\">Medical Office Manager (MOM)</a></li>\n";
+}
+?>
 
-                <!-- Doodle Sign-up -->
+                <!-- Doodle Sign-up
                 <li><a href="http://doodle.com/rump7ea6f53cnexn" target="_blank">EAB H&amp;P Sign-Up</a></li>
                 <li><a href="http://doodle.com/e2zmaezzt3vnv45q" target="_blank">EAB Dispensary Sign-Up</a></li>
-                <li><a href="http://doodle.com/t8q4fgc89m2gchtv" target="_blank">M-Power H&amp;P Sign-Up</a></li>
+                <li><a href="http://doodle.com/t8q4fgc89m2gchtv" target="_blank">M-Power H&amp;P Sign-Up</a></li> -->
               </ul>
             </li>
 
@@ -85,7 +94,7 @@ else
             <li class=\"dropdown\">
               <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Profile <b class=\"caret\"></b></a>
               <ul class=\"dropdown-menu\">\n";
-/*
+
 	if($login->isUserVerified() == false)
 	{
 		// if user has not verified their account, show verification page
@@ -96,7 +105,7 @@ else
 		// if user has verified account, show profile edit page
 		echo "                <li><a href=\"/account/edit_profile.php\">Edit Profile</a></li>";
 	}
-*/
+
 	echo "
                 <li><a href=\"/index.php?logout\">Logout</a></li>
               </ul>
@@ -119,38 +128,56 @@ if($permissions->isUserAdmin() == false)
     </nav>
 
 <?php
+// Note: all modal triggers must go in here in order to have the javascript at the end of the file for website speed optimization
+
 // Calls the incorrect modal if someone attempts to login but fails
 if(isset($login))
 {
-	if(isset($_POST['login']) && $login->isUserLoggedIn() == false)
-	{
-		echo "
+  if((isset($_POST['login']) || isset($_GET['require_verify'])) && $login->isUserLoggedIn() == false)
+  {
+    echo "
     <script>
       $(document).ready(function() {
         $('#incorrectModal').modal('toggle');
       });
     </script>
-	";
-	}
+  ";
+  }
 }
 
-// Prevents error from triggering on admin page as those messages are reserved for a confirmation modal
-if(isset($login) || isset($registration) || isset($permissions) && $_SERVER['SCRIPT_NAME'] != "/account/admin_management.php")
+// Calls error and message modal if either of them for any of the objects is set
+if(isset($login) || isset($registration) || isset($permissions))
 {
-	if($login->errors || $login->messages || $registration->errors || $registration->messages || $permissions->errors || $permissions->messages)
-	{
-		// Prevents modal for login errors because this is controlled more closely by an incorrect modal login
-		if(!in_array(MESSAGE_LOGIN_FAILED, $login->errors) && !in_array(MESSAGE_PASSWORD_WRONG, $login->errors))
-		{
-			echo "
+  // Prevents error from triggering on admin page as those messages are reserved for a confirmation modal
+  if($_SERVER['SCRIPT_NAME'] != "/account/admin_management.php")
+  {
+    if($login->errors || $login->messages || $registration->errors || $registration->messages || $permissions->errors || $permissions->messages)
+    {
+      // Prevents modal for login errors because this is controlled more closely by an incorrect modal login
+      if(!in_array(MESSAGE_LOGIN_FAILED, $login->errors) && !in_array(MESSAGE_PASSWORD_WRONG, $login->errors))
+      {
+        echo "
     <script>
       $(document).ready(function() {
         $('#error_message_modal').modal('toggle');
       });
     </script>
-		";
-		}
-	}
+      ";
+      }
+    }
+  }
+}
+
+// Calls the require verify modal to inform user that they need to first verify their account before accessing something
+if(isset($_GET['require_verify']) && $login->isUserLoggedIn() == true)
+{
+  echo "
+    <script>
+      $(document).ready(function() {
+        $('#require_verify_modal').modal('toggle');
+      });
+    </script>
+  ";
 }
 ?>
 
@@ -171,8 +198,8 @@ if(isset($login) || isset($registration) || isset($permissions) && $_SERVER['SCR
             <!-- Form using PHP-Login -->
               <!-- Action is the current loction on the server -->
               <!-- The login object is on each page so this works fine -->
-              <!-- This CANNOT be blank as the "?logout" get variable will be reset upon submission, otherwise the login will close the session-->
-            <form role="form" method="post" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
+              <!-- This CANNOT be blank as the "?logout" $_GET variable needs to be reset upon submission, otherwise the login object will close the session due to the logout command-->
+            <form id="signin_form" role="form" method="post" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
               <div class="form-group">
                 <input id="user_name" class="form-control login_input" type="text" name="user_name" placeholder="User Name" required />
               </div>
@@ -243,13 +270,13 @@ if (isset($login))
 	{
 		foreach ($login->errors as $error)
 		{
-			echo "          <li>Login Error: $error</li>";
+			echo "          <li>Login Error: $error</li>\n";
 		}
 	}
 	if ($login->messages) {
 		foreach ($login->messages as $message)
 		{
-			echo "          <li>Login Message: $message</li>";
+			echo "          <li>Login Message: $message</li>\n";
 		}
 	}
 }
@@ -261,14 +288,14 @@ if (isset($permissions))
 	{
 		foreach ($permissions->errors as $error)
 		{
-			echo "          <li>Permission Error: $error</li>";
+			echo "          <li>Permission Error: $error</li>\n";
 		}
 	}
 	if ($permissions->messages)
 	{
 		foreach ($permissions->messages as $message)
 		{
-			echo "          <li>Permission Message: $message</li>";
+			echo "          <li>Permission Message: $message</li>\n";
 		}
 	}
 }
@@ -280,14 +307,14 @@ if (isset($registration))
 	{
 		foreach ($registration->errors as $error)
 		{
-			echo "          <li>Registration Error: $error</li>";
+			echo "          <li>Registration Error: $error</li>\n";
 		}
 	}
 	if ($registration->messages)
 	{
 		foreach ($registration->messages as $message)
 		{
-			echo "          <li>Registration Message: $message</li>";
+			echo "          <li>Registration Message: $message</li>\n";
 		}
 	}
 }
@@ -298,5 +325,27 @@ if (isset($registration))
             <button type="button" class="btn btn-eab" data-dismiss="modal">Ok</button>
           </div>
         </div><!-- Modal Content -->
+      </div>
+    </div>
+
+    <!-- Incorrect Sign-In Modal -->
+    <div class="modal fade" id="require_verify_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <img class="modal-logo" src="/images/EABLogo.png" alt="EAB Logo" />
+          </div>
+          <div class="modal-body">
+            <h4 class="modal-body-header"><strong>Required Account Verification</strong></h4>
+            <p>Please login and verify your account before accessing that page</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-eab" data-dismiss="modal">Ok</button>
+          </div>
+        </div>
       </div>
     </div>
