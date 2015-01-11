@@ -8,7 +8,7 @@ require_once($path_to_root . "includes/header.php");
 
     <title>Sign Up | Equal Access Birmingham</title>
 
-<?php require_once($path_to_root . "includes/menu_mom.php"); ?>
+<?php require_once($path_to_root . "includes/menu_sign_in.php"); ?>
 
 <?php
 // Establish Database Connection
@@ -86,7 +86,7 @@ while($result_program = $stmt_program->fetch())
 	$date_now = new DateTime("now");
 
 	// If there are future dates for the program and it isn't already in the array (don't want duplicates now do we... ;) )
-	if($date > $date_now && !in_array($result_program['program_name'], $programs))
+	if($date > $date_now && !in_array($result_program['program_name']))
 	{
 		// Use program_id as array key so that it can be capture for use as value of dropdown
 		$programs[$result_program['program_id']] = $result_program['program_name'];

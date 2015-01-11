@@ -8,7 +8,7 @@ require_once($path_to_root . "includes/header.php");
 
     <title>My Schedule | Equal Access Birmingham</title>
 
-<?php require_once($path_to_root . "includes/menu_sign_in.php");
+<?php require_once($path_to_root . "includes/menu_mom.php");
 
 // Sets up the database connection
 try

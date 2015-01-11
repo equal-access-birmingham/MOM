@@ -9,7 +9,7 @@ require_once($path_to_root . "includes/header.php");
 
     <title>Create Event | Equal Access Birmingham</title>
 
-<?php require_once($path_to_root . "includes/menu_sign_in.php");?>
+<?php require_once($path_to_root . "includes/menu_mom.php");?>
 
 <?php
 /**

@@ -9,7 +9,7 @@ require_once($path_to_root . "includes/header.php");
 
     <title>Admin Sign Up Tool | Equal Access Birmingham</title>
 
-<?php require_once($path_to_root . "includes/menu_sign_in.php"); ?>
+<?php require_once($path_to_root . "includes/menu_mom.php"); ?>
 
 <?php
 // Create a database connection or return error and terminate admin page
