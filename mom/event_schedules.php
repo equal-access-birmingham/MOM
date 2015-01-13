@@ -1,6 +1,5 @@
 <?php
 $require_login = true;
-$require_admin = true;
 $require_verified_account = true;
 
 $path_to_root = str_repeat("../", substr_count($_SERVER['SCRIPT_NAME'], "/") - 1);
@@ -26,11 +25,29 @@ catch(PDOException $e)
 	echo "Error: " . $e->getMessage();
 }
 
-// Query for programs
-$query = "SELECT * FROM `program_table`;";
-$stmt_programs = $db_connection->prepare($query);
-$stmt_programs->execute();
+//grabbing programs
+$query_program = "SELECT `program_table`.`program_id`, `program_name`, `program_relation_table`.`date`
+	FROM `program_table`
+	INNER JOIN `program_relation_table`
+	ON `program_table`.`program_id` = `program_relation_table`.`program_id`";
+$stmt_program = $db_connection->prepare($query_program);
+$stmt_program->execute();
 
+// Holds programs that have a future date in them (won't contain programs that don't have events scheduled for later)
+$programs = array();
+
+while($result_program = $stmt_program->fetch())
+{
+	$date = new DateTime($result_program['date']);
+	$date_now = new DateTime("now");
+
+	// If there are future dates for the program and it isn't already in the array (don't want duplicates now do we... ;) )
+	if($date > $date_now && !in_array($result_program['program_name'], $programs))
+	{
+		// Use program_id as array key so that it can be capture for use as value of dropdown
+		$programs[$result_program['program_id']] = $result_program['program_name'];
+	}
+}
 
 /**
  * Delete Confirmation Section
@@ -212,7 +229,7 @@ else
 
 
     <div class="container no-image">
-      <h1>Master Schedule</h1>
+      <h1>Event Schedules</h1>
 
       <h3>Search Schedule</h3>
       <form action="" method="get" role="form">
@@ -275,11 +292,11 @@ for($i = 1; $i < 13; $i++)
           <!-- Programs -->
           <div class="form-group">
             <select id="program" class="form-control" name="program">
-              <option value="">-- Program --</option>
+              <option value="">-- Event --</option>
 <?php
-while($result = $stmt_programs->fetch())
+foreach($programs as $program_id => $program)
 {
-	echo "               <option value=\"" . $result['program_id'] . "\">" . $result['program_name'] . "</option>";
+	echo "               <option value=\"" . $program_id . "\">" . $program . "</option>";
 }
 ?>
             </select>
@@ -288,13 +305,9 @@ while($result = $stmt_programs->fetch())
       </form><hr />
 
       <h3>View Schedule</h3>
-      <form action="" method="post" role="form">
-        <input type="submit" class="btn btn-default" name="delete_schedule" value="Delete Volunteer Times" /><br /><br />
-        <div class="table-responsive">
-          <table id="master_schedule" class="table table-striped text-center">
-          </table>
-        </div>
-      </form>
+      <table id="master_schedule" class="table table-striped text-center">
+      </table>
+
     </div>
 
     <script>
@@ -325,7 +338,7 @@ while($result = $stmt_programs->fetch())
           }
         }
 
-        xmlhttp.open("GET", "master_schedule_table.php?fname="+fname+"&lname="+lname+"&year="+year+"&month="+month+"&day="+day+"&program="+program, true);
+        xmlhttp.open("GET", "event_schedules_table.php?fname="+fname+"&lname="+lname+"&year="+year+"&month="+month+"&day="+day+"&program="+program, true);
         xmlhttp.send();
       }
 

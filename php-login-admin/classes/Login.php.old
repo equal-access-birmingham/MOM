@@ -57,6 +57,11 @@ class Login
 	/**
 	 * @var array $messages Collection of success / neutral messages
 	 */
+	public $messages = array();
+	/**
+	 * @var number stating how many days till account termination
+	 */
+	public $days_remaining_to_verify = "";
 
 	/**
 	 * the function "__construct()" automatically starts whenever an object of this class is created,
@@ -1071,8 +1076,8 @@ class Login
 			return false;
 		} elseif($this->verifyAccount($user_name) == false && $date_interval->format("%d") < 3) {
 			// Password is not greater than three days old but user has not changed the password
-			// Set a $_SESSION variable for display to user if necessary
-			$_SESSION['verify_time'] = (3 - $date_interval->format("%d"));
+			// Set a variable for display to user if necessary
+			$this->days_remaining_to_verify = (3 - $date_interval->format("%d"));
 		}
 
 		// default return

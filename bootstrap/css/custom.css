@@ -85,7 +85,6 @@ html, body {
 		margin-left: 0;
 		float: none;
 	}
-	
 }
 
 /**
@@ -336,6 +335,16 @@ html, body {
 	.trifecta {
 		height: 120px;
 	}
+}
+
+/**
+ * Vertically align tables
+ * Centers every table vertically
+ */
+
+.table > tbody > tr > td,
+.table > tbody > tr > th {
+	vertical-align: middle;
 }
 
 /**

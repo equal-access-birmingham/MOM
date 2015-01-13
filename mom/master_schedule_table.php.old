@@ -117,20 +117,13 @@ echo "
 while($result = $stmt_signup_table->fetch())
 {
 	$date = new DateTime($result['date']);
-
-	$phone_number = str_replace("-", "&#8209;", $result['phone_number']);
-	$phone_number = str_replace(" ", "&nbsp;", $phone_number);
-
-	$replace_array = array("(", ")", " ", "-");
-	$phone_number_link = str_replace($replace_array, "", $result['phone_number']);
-	
 	echo "
           <tr>
             <td><input type=\"checkbox\" name=\"delete_schedule[]\" value=\"" . $result['signup_id'] . "\" /></td>
             <td>" . $result['fname'] . "</td>
             <td>" . $result['lname'] . "</td>
-            <td><a href=\"mailto:" . $result['user_email'] . "\">" . $result['user_email'] . "</a></td>
-            <td><a href=\"tel:$phone_number_link\">" . $phone_number . "</a></td>
+            <td>" . $result['user_email'] . "</td>
+            <td>" . $result['phone_number'] . "</td>
             <td>" . $result['program_name'] . "</td>
             <td>" . $date->format("F j, Y") . "</td>
             <td>" . $result['role_name'] . "</td>

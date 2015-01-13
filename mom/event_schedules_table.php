@@ -1,10 +1,6 @@
 <?php
 $require_login = true;
-$require_admin = true;
 $require_verified_account = true;
-
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
 
 $path_to_root = str_repeat("../", substr_count($_SERVER['SCRIPT_NAME'], "/") - 1);
 require_once($path_to_root . "includes/header.php");
@@ -36,6 +32,7 @@ catch(PDOException $e)
  ** role_id
  ** role_name
  */
+$current_date = new DateTime("now");
 $query = "SELECT `program_name_info`.*, `users`.`user_email`
 	FROM (
 		SELECT `program_info`.*, `program_table`.`program_name`
@@ -65,7 +62,7 @@ $query = "SELECT `program_name_info`.*, `users`.`user_email`
 	) AS `program_name_info`
 	INNER JOIN `users`
 	ON `program_name_info`.`user_id` = `users`.`user_id`
-	WHERE `program_name_info`.`fname` COLLATE UTF8_GENERAL_CI LIKE :fname AND `program_name_info`.`lname` COLLATE UTF8_GENERAL_CI LIKE :lname";
+	WHERE `program_name_info`.`fname` COLLATE UTF8_GENERAL_CI LIKE :fname AND `program_name_info`.`lname` COLLATE UTF8_GENERAL_CI LIKE :lname AND DATE(`program_name_info`.`date`) > :current_date";
 
 /**
  * Setting limitations for dropdowns dynamically because these use number and can't use SQL LIKE
@@ -89,6 +86,7 @@ $query .= " ORDER BY `program_name_info`.`date` ASC, `program_name_info`.`lname`
 $stmt_signup_table = $db_connection->prepare($query);
 $stmt_signup_table->bindValue(':fname', $fname."%", PDO::PARAM_STR);
 $stmt_signup_table->bindValue(':lname', $lname."%", PDO::PARAM_STR);
+$stmt_signup_table->bindValue(':current_date', $current_date->format("Y-m-d"), PDO::PARAM_STR);
 
 // Binding values as needed based on the above query statement
 if($_GET['year'] && $_GET['month'] && $_GET['day'])
@@ -103,11 +101,9 @@ $stmt_signup_table->execute();
 
 echo "
           <tr>
-            <th class=\"text-center\">Select</th>
             <th class=\"text-center\">First Name</th>
             <th class=\"text-center\">Last Name</th>
             <th class=\"text-center\">Email</th>
-            <th class=\"text-center\">Phone Number</th>
             <th class=\"text-center\">Clinic</th>
             <th class=\"text-center\">Date</th>
             <th class=\"text-center\">Role</th>
@@ -117,20 +113,11 @@ echo "
 while($result = $stmt_signup_table->fetch())
 {
 	$date = new DateTime($result['date']);
-
-	$phone_number = str_replace("-", "&#8209;", $result['phone_number']);
-	$phone_number = str_replace(" ", "&nbsp;", $phone_number);
-
-	$replace_array = array("(", ")", " ", "-");
-	$phone_number_link = str_replace($replace_array, "", $result['phone_number']);
-	
 	echo "
           <tr>
-            <td><input type=\"checkbox\" name=\"delete_schedule[]\" value=\"" . $result['signup_id'] . "\" /></td>
             <td>" . $result['fname'] . "</td>
             <td>" . $result['lname'] . "</td>
-            <td><a href=\"mailto:" . $result['user_email'] . "\">" . $result['user_email'] . "</a></td>
-            <td><a href=\"tel:$phone_number_link\">" . $phone_number . "</a></td>
+            <td>" . $result['user_email'] . "</td>
             <td>" . $result['program_name'] . "</td>
             <td>" . $date->format("F j, Y") . "</td>
             <td>" . $result['role_name'] . "</td>

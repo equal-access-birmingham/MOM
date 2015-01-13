@@ -285,8 +285,10 @@ else
         <!-- User Acquired via AJAX and put into table in form -->
         <div class="form-group">
           <label>Volunteers (search above)</label>
-          <table class="table table-striped text-center" id="volunteer_table">
-          </table>
+          <div class="table-responsive">
+            <table class="table table-striped text-center" id="volunteer_table">
+            </table>
+          </div>
         </div>
 
         <!-- Program -->

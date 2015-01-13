@@ -74,6 +74,7 @@ while($email = fgets($email_file))
 			foreach($registration->messages as $message)
 			{
 				fwrite(STDOUT, $message . "\n");
+				$registration->messages = array();
 			}
 		}
 
@@ -82,7 +83,8 @@ while($email = fgets($email_file))
 		{
 			foreach($registration->errors as $error)
 			{
-				fwrite(STDOUT, $error . "\n");
+				fwrite(STDOUT, $email . ": " . $error . "\n");
+				$registration->messages = array();
 			}
 		}
 		else

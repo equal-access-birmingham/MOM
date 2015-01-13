@@ -37,6 +37,7 @@ $result = $stmt_user_full_name->fetch();
 
 // MySQL query for user's schedule
 // Captures all dates the user is signed up for and orders them in ascending order
+$current_date = new DateTime("now");
 $query = "SELECT `temp4`.`role_name`, `temp4`.`program_name`, `temp4`.`date`, `temp4`.`arrival_time`, `temp4`.`start_time`, `location_table`.`address`
 	FROM (
 		SELECT `arrival_time_table`.`arrival_time`, `temp3`.`role_name`, `temp3`.`program_name`, `temp3`.`date`, `temp3`.`location_id`, `temp3`.`start_time`
@@ -67,9 +68,12 @@ $query = "SELECT `temp4`.`role_name`, `temp4`.`program_name`, `temp4`.`date`, `t
 	) AS `temp4`
 	LEFT JOIN `location_table`
 	ON `temp4`.`location_id` = `location_table`.`location_id`
+	WHERE DATE(`temp4`.`date`) > :current_date
 	ORDER BY `temp4`.`date` ASC;";
+
 $stmt_user_schedule = $con->prepare ($query);
 $stmt_user_schedule->bindValue (':user_id', $user_id, PDO::PARAM_STR);
+$stmt_user_schedule->bindValue (':current_date', $current_date->format("Y-m-d"), PDO::PARAM_STR);
 $stmt_user_schedule->execute();
 ?>
     <div class="container no-image">
@@ -97,8 +101,8 @@ do
 	{
 		echo "
       <p>
-        You are not currently scheduled for any events.  Go to 
-        <a href=\"/mom/index.php\">Sign Up</a> under Volunteers to sign up for a 
+        You are not currently scheduled for any upcoming events.  You can go to 
+        <a href=\"/mom/index.php\">Sign Up</a> to register for a 
         volunteer spot with EAB.
       </p>\n";
 

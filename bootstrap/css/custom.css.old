@@ -1,5 +1,10 @@
+/**
+ * Page rules
+ */
 html, body {
 	height: 100%; /*for carousel*/
+	margin: 0;
+	padding: 0;
 }
 
 /**
@@ -28,8 +33,8 @@ html, body {
 	margin-bottom: 15px;
 	font-family: "Century Gothic", Arial, sans-serif;
 }
-/* The EAB Navbar */
 
+/* The EAB Navbar */
 .navbar-eab {
 	background-color: #31704b;
 	border-color: #214d33;
@@ -97,7 +102,7 @@ html, body {
 }
 
 @media (min-width: 768px) {
-	.carousel-caption .container-fluid {
+	.carousel-caption .background-highlight {
 		background-color: rgb(0, 0, 0);
 		background-color: rgba(0, 0, 0, 0.6);
 	}
@@ -153,6 +158,7 @@ html, body {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	background-color: #777;
 }
 
 .hero-img-caption {
@@ -177,9 +183,15 @@ html, body {
 }
 
 /**
+ * No carousel or hero-image
+ */
+.no-image {
+	padding-top: 50px;
+}
+
+/**
  * Scroll Button
  */
-
 .scroll {
 	position: absolute;
 	z-index: 20;
@@ -223,90 +235,8 @@ html, body {
 }
 
 /**
- * Body Content
+ * EAB Button
  */
-.body-content-header {
-	font-family: "Century Gothic", Arial, sans-serif;
-	margin-bottom: 30px;
-}
-
-.body-section {
-	width: 100%;
-	padding-bottom: 25px;
-}
-
-/* Display */
-.table {
-	display: table;
-}
-
-.table-cell {
-	display: table-cell;
-	vertical-align: middle;
-	padding: 10px;
-}
-
-.table-img {
-	width: 100%;
-	max-width: 400px;
-}
-
-/* Colors */
-.bg-green {
-	background: #31704b;
-}
-
-.bg-green h1 {
-	color: #fff;
-}
-
-.bg-green p {
-	color: #fff;
-}
-
-.bg-green a, .bg-green a:hover{
-	color: #fff;
-}
-
-.bg-white {
-	background: #fff;
-}
-
-.green {
-	color: #31704b;
-}
-
-.white {
-	color: #fff;
-}
-
-.black {
-	color: #000;
-}
-
-/* Trifecta */
-
-.trifecta {
-	display: inline-block;
-	height: 100px;
-	width: 100%;
-	margin: 20px 20px 20px 0;
-	padding-bottom: 115px;
-	border-radius: 5px;
-	text-align: center;
-	background-color: #fff;
-	background-position: center;
-	background-size: 1000px;
-	background-repeat: no-repeat;
-}
-
-@media (min-width: 992px) {
-	.trifecta {
-		height: 120px;
-	}
-}
-
-/* EAB Button */
 .btn-eab {
 	color: #fff;
 	font-weight: bold;
@@ -346,8 +276,173 @@ html, body {
 }
 
 /**
+ * EAB panel
+ */
+.panel-eab {
+  border-color: #214d33;
+}
+
+.panel-eab > .panel-heading {
+  color: #fff;
+  background-color: #31704b;
+  border-color: #214d33;
+}
+.panel-eab > .panel-heading + .panel-collapse .panel-body {
+  border-top-color: #214d33;
+}
+.panel-eab > .panel-footer + .panel-collapse .panel-body {
+  border-bottom-color: #214d33;
+}
+
+
+/**
+ * Body Content
+ */
+.fancy-header {
+	font-family: "Century Gothic", Arial, sans-serif;
+	margin-bottom: 30px;
+}
+
+.body-section-padding {
+	padding-bottom: 80px;
+}
+
+.bg-green {
+	background: #31704b;
+}
+
+.bg-green h1 {
+	color: #fff;
+}
+
+/**
+ * Trifecta
+ */
+.trifecta {
+	display: inline-block;
+	height: 100px;
+	width: 100%;
+	margin: 20px 20px 20px 0;
+	padding-bottom: 115px;
+	border-radius: 5px;
+	text-align: center;
+	background-color: #fff;
+	background-position: center;
+	background-size: 1000px;
+	background-repeat: no-repeat;
+}
+
+@media (min-width: 992px) {
+	.trifecta {
+		height: 120px;
+	}
+}
+
+/**
+ * Vertical Rows
+ */
+/* Used to vertically center a div in a column */
+.vcenter {
+	display: table-cell;
+	height: 500px;
+	width: 1000px;
+	vertical-align: middle;
+}
+
+/* List of vertically centered div heights */
+.vcenter-ht-500 {
+	height: 500px;
+}
+
+/* Must be used with bootstrap's small columns because of this */
+@media (max-width: 767px) {
+	.vcenter {
+		padding-bottom: 20px;
+	}
+
+	.vcenter-ht-500 {
+		height: 100px;
+	}
+}
+
+/* Below are classes to display images properly while centered vertically */
+.vcenter-img-lg {
+	/* 100% of height of vertically centered column */
+	width: 300px; 
+}
+
+.vcenter-img-md {
+	/* 70% of height of vertically centered column */
+	width: 210px;
+}
+
+.vcenter-img-sm {
+	/* 50% of height of vertically centered column */
+	width: 150px;
+}
+
+.vcenter-img-right {
+	text-align: right;
+}
+
+@media (max-width: 767px) {
+	.vcenter-img-lg {
+		width: 200px;
+
+		/* Keeps pictures from butting up against carousel/hero image */
+		margin-top: 25px; 
+	}
+	
+	.vcenter-img-md {
+		width: 140px;
+		
+		/* Keeps pictures from butting up against carousel/hero image */
+		margin-top: 25px; 
+	}
+	
+	.vcenter-img-sm {
+		width: 100px;
+		
+		/* Keeps pictures from butting up against carousel/hero image */
+		margin-top: 25px; 
+	}
+
+	.vcenter-img-center {
+		text-align: center;
+	}
+}
+
+/**
+ * Picture divider
+ ** This only sets up the div, place a picture class in the div to fill the div with a pic
+ */
+.picture-div {
+	position: relative;
+	width: 100%;
+	height: 400px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: #777;
+}
+
+@media (max-width: 767px) {
+	.picture-div {
+		height: 200px;
+	}
+}
+
+/**
  * Footer
  */
+/* This is only for jQuery to keep the footer at the bottom */
+.footer-drop {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+
+
 .footer-section {
 	margin: 25px 0 20px;
 	background-color: #ffffff;
@@ -394,41 +489,98 @@ html, body {
 	width: 100%;
 }
 
-/**
- * Images
- */
-.location-img {
-	background-image: url("../../images/Location.jpg");
-}
+/**********
+ * Images *
+ **********/
 
-.patient-img {
-	background-image: url("../../images/Patient3.jpg");
-}
+/* Carousel Images */
 
+/* Image for carousel under slide "Who We Are" */
 .eab-img {
 	background-image: url("../../images/AboutEAB.jpg");
 }
 
-.race-home-img {
-	background-image: url("../../images/Heart+Sole.jpg");
+/* Image used for generic donate image on carousel when no active fundraisers are taking place */
+.donate-img {
+	background-image: url("../../images/generic_donate_b&w.jpg");
 }
 
-.race-img {
-	background-image: url("../../images/Heart+SolePage.jpg"); /* Events Page */
+/* Location image of carousel */
+.location-img {
+	background-image: url("../../images/Location.jpg");
 }
 
+/* "For Patients" slide of main carousel */
+.patient-img {
+	background-image: url("../../images/for_patients.jpg");
+}
+
+
+/**
+ * Static page images
+ */
+
+/* About Page */
+/* Image for hero-image of About page */
+.about-img {
+	background-image: url("../../images/about/about.jpg");
+}
+
+/* Volunteer Information page */
+/* Hero image for volunteer information page */
+.volunteer-img {
+	background-image: url("../../images/volunteers/volunteers.jpg");
+}
+
+/* First division image for volunteer information page */
+.volunteer-div1-img {
+	background-image: url("../../images/volunteers/pharmacy_schedule.jpg");
+}
+
+/* Second division image for volunteer information page */
+.volunteer-div2-img {
+	background-image: url("../../images/volunteers/officers.jpg");
+}
+
+/* Patients Page */
+/* Hero image for patients page */
+.patients-img {
+	background-image: url("../../images/patients/patient_services.jpg");
+}
+
+/* Picture div for EAB clinic */
+.eab-location-img {
+	background-image: url("../../images/patients/eab_location.jpg");
+}
+
+/* Picture div for M-Power clinic */
+.mpower-location-img {
+	background-image: url("../../images/patients/mpower_location.jpg");
+}
+
+
+/* Generic image going in hero-image of pages under construction */
 .coming-soon-img {
 	background-image: url("../../images/comingSoon.jpg");
 }
 
-.about-img {
-	background-image: url("../../images/about.jpg");
+
+/* Special carousel images */
+
+/* Carousel Heart and Sole Image */
+.race-home-img {
+	background-image: url("../../images/Heart+Sole.jpg");
 }
 
-.donate-img {
-	background-image: url("../../images/Patient1.png");
-}
-
+/* Image for Project I-Stat in carousel */
 .crowd_funding-img {
-	background-image: url("../../images/crowd_funding.png");
+	background-image: url("../../images/crowd_funding.jpg");
+}
+
+
+/* Special page images */
+
+/* Hero image for Heart and Sole Page */
+.race-img {
+	background-image: url("../../images/Heart+SolePage.jpg"); /* Events Page */
 }

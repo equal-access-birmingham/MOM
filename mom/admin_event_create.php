@@ -134,11 +134,11 @@ if(isset($_POST['clinic_event_creation']))
 	$stmt_insert_program->bindParam(':end_time', $end_time, PDO::PARAM_STR);
 
 	// Query to check for duplicate program times
-	$dup = "SELECT COUNT(*) AS 'dupes'
+	$dup = "SELECT COUNT(*) AS `dupes`
 		FROM program_relation_table
-		WHERE `date` = :new_date AND `program_id` = :program_id";
+		WHERE `date` = :clinic_date AND `program_id` = :program_id";
 	$stmt_dupes = $con->prepare($dup);
-	$stmt_dupes->bindParam(':new_date', $new_date, PDO::PARAM_STR);
+	$stmt_dupes->bindParam(':clinic_date', $clinic_date, PDO::PARAM_STR);
 	$stmt_dupes->bindParam(':program_id', $program_id, PDO::PARAM_STR);
 
 	echo "

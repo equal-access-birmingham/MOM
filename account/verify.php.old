@@ -64,8 +64,6 @@ $stmt_level->execute();
       <!-- clean separation of HTML and PHP -->
       <h2><?php echo $_SESSION['user_name'] . ", " . WORDING_VERIFY_ACCOUNT_REQUEST; ?></h2>
       
-      <?php echo "<p>You have " . $_SESSION['verify_time'] . " days remaining to verify your account before it is terminated.</p>"; ?>
-
       <!-- edit form for user's password / this form uses the HTML5 attribute "required" -->
       <form method="post" action="/index.php">
         <!-- Edit user password -->

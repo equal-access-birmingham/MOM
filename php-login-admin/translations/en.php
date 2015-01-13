@@ -31,7 +31,6 @@ define("MESSAGE_NEW_ACCOUNT_MAIL_ERROR", "Sorry, we could not send an email with
 define("MESSAGE_NEW_ACCOUNT_MAIL_NOT_SENT", "New account creation email NOT successfully sent. Error: ");
 define("MESSAGE_NEW_ACCOUNT_MAIL_SENT", "The email with the information of the newly created account has been sent.");
 define("MESSAGE_NEW_ACCOUNT_NOT_VERIFIED", "This account has not been verified. Please email your administrator to reset the password.");
-define("MESSAGE_NEW_ACCOUNT_VERIFY_REQUEST", "Please verify your account by clicking on \"Verify Account\" under \"Profile\" and filling out the form. Failure to verify will result in termination of the account. Days remaining: ");
 define("MESSAGE_NEW_ACCOUNT_VERIFIED_SUCCESSFULLY", "Your account has been verified and is now permanent.");
 define("MESSAGE_PASSWORD_BAD_CONFIRM", "Password and password repeat are not the same");
 define("MESSAGE_PASSWORD_CHANGE_FAILED", "Sorry, your password changing failed.");

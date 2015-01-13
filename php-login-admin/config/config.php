@@ -13,10 +13,10 @@
  *          by the way, it's bad style to use "root", but for development it will work.
  * DB_PASS: the password of the above user
  */
-define("DB_HOST", "");
-define("DB_NAME", "");
-define("DB_USER", "");
-define("DB_PASS", "");
+define("DB_HOST", "localhost");
+define("DB_NAME", "eabdb");
+define("DB_USER", "eabdb");
+define("DB_PASS", "Kd3Zgr46gwlQgbavgC4f116F6bv2P1SP");
 
 /**
  * Configuration for: Cookies
@@ -34,8 +34,8 @@ define("DB_PASS", "");
  * COOKIE_SECRET_KEY: Put a random value here to make your app more secure. When changed, all cookies are reset.
  */
 define("COOKIE_RUNTIME", 1209600);
-define("COOKIE_DOMAIN", "");
-define("COOKIE_SECRET_KEY", "");
+define("COOKIE_DOMAIN", ".path.uab.edu");
+define("COOKIE_SECRET_KEY", "836LIrz667K6d957tfWdA8OX");
 
 /**
  * Configuration for: Email server credentials
@@ -64,8 +64,8 @@ define("COOKIE_SECRET_KEY", "");
 define("EMAIL_USE_SMTP", true);
 define("EMAIL_SMTP_HOST", "ssl://smtp.gmail.com");
 define("EMAIL_SMTP_AUTH", true);
-define("EMAIL_SMTP_USERNAME", "");
-define("EMAIL_SMTP_PASSWORD", "");
+define("EMAIL_SMTP_USERNAME", "iteabirmingham");
+define("EMAIL_SMTP_PASSWORD", "x24587Z52S5lZ1WmYq83d09fF82EB86L");
 define("EMAIL_SMTP_PORT", 465);
 define("EMAIL_SMTP_ENCRYPTION", "ssl");
 
@@ -86,7 +86,7 @@ define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your p
 define("EMAIL_NEW_ACCOUNT_FROM", "no-reply@eab.com");
 define("EMAIL_NEW_ACCOUNT_FROM_NAME", "Equal Access Birmingham");
 define("EMAIL_NEW_ACCOUNT_SUBJECT", "New Account for Equal Access Birmingham");
-define("EMAIL_NEW_ACCOUNT_BODY", "You have been signed up for a new account at Equal Access Birmingham (eab.path.uab.edu).  Below is your user name and temporary password, which will expire in 3 days.");
+define("EMAIL_NEW_ACCOUNT_BODY", "You have been signed up for a new account at Equal Access Birmingham (eab.path.uab.edu).  Below is your user name and temporary password, which will expire in 3 days.  Please login, click on \"Profile\" and select \"Verify Account\" to verify your account.");
 
 /**
  * Configuration for: account reset email

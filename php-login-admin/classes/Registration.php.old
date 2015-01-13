@@ -241,7 +241,9 @@ class Registration
 		$mail->Subject = EMAIL_NEW_ACCOUNT_SUBJECT;
 		
 		// Body of the email
-		$mail->Body = EMAIL_NEW_ACCOUNT_BODY . "\n\nUser Name: $user_name\nPassword: $user_password";
+		$mail->Body = EMAIL_NEW_ACCOUNT_BODY . "\n
+			User Name: $user_name
+			Password: $user_password";
 		
 		if(!$mail->Send()) {
 			$this->errors[] = MESSAGE_NEW_ACCOUNT_MAIL_NOT_SENT . $mail->ErrorInfo;

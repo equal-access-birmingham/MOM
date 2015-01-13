@@ -202,16 +202,7 @@ if(isset($_GET['require_verify']) && $login->isUserLoggedIn() == true)
               <!-- Action is the current loction on the server -->
               <!-- The login object is on each page so this works fine -->
               <!-- This CANNOT be blank as the "?logout" $_GET variable needs to be reset upon submission, otherwise the login object will close the session due to the logout command-->
-<?php
-if($login->isUserVerified() == true)
-{
-	echo"            <form id=\"signin_form\" role=\"form\" method=\"post\" action=\"" . $_SERVER['SCRIPT_NAME'] . "\">\n";
-}
-else
-{
-	echo"            <form id=\"signin_form\" role=\"form\" method=\"post\" action=\"/account/verify.php\">\n";
-}
-?>
+            <form id="signin_form" role="form" method="post" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
               <div class="form-group">
                 <input id="user_name" class="form-control login_input" type="text" name="user_name" placeholder="User Name" required />
               </div>
@@ -340,7 +331,7 @@ if (isset($registration))
       </div>
     </div>
 
-    <!-- Verify First Please Modal -->
+    <!-- Incorrect Sign-In Modal -->
     <div class="modal fade" id="require_verify_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -353,7 +344,7 @@ if (isset($registration))
           </div>
           <div class="modal-body">
             <h4 class="modal-body-header"><strong>Required Account Verification</strong></h4>
-            <p>Please <a href="/account/verify.php">verify your account</a> before accessing that page</p>
+            <p>Please login and verify your account before accessing that page</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-eab" data-dismiss="modal">Ok</button>
