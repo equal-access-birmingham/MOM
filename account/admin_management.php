@@ -139,8 +139,10 @@ while($result = $stmt_level->fetchObject())
           <input class="btn btn-default" type="submit" name="update_accounts" value="<?php echo WORDING_UPDATE; ?>" />
         </div>
 
-        <table id="user_table" class="table table-striped text-center">
-        </table>
+        <div class="table-responsive">
+          <table id="user_table" class="table table-striped text-center">
+          </table>
+        </div>
       </form>
     </div>
 
