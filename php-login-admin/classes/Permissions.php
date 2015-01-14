@@ -93,6 +93,14 @@ class Permissions
 					}
 				}
 			}
+			elseif(isset($_POST['dismiss_action']))
+			{
+				// Unsets all session variables so that a second action won't trigger them
+				unset($_SESSION['admin_delete_list']);
+				unset($_SESSION['admin_add_list']);
+				unset($_SESSION['delete_users_array']);
+				unset($_SESSION['reset_user_accounts_array']);
+			}
 		}
 	}
 	

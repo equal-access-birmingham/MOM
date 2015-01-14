@@ -80,7 +80,7 @@ if (isset($permissions)) {
           </div>
           <div class="modal-footer">
             <form method="post" action="" role="form">
-              <button class="btn btn-success" type="button" data-dismiss="modal">No, Go Back</button>
+              <input class="btn btn-success" type="submit" name="dismiss_action" value="No, Go Back" />
               <input class="btn btn-danger" type="submit" name="confirm_action" value="Confirm" />
             </form>
           </div>
