@@ -221,7 +221,7 @@ class Permissions
 		if($this->databaseConnection()) {
 			// Query for all id's of user
 			// Note that this will return nothing if the user has not verified their account
-			$query = "SELECT `academic_info`.*, `position_relation_table`.`position_id`
+			$query = "SELECT `academic_info`.*, `position_relation_table`.`position_relation_id`
 						FROM (
 							SELECT `personal_info`.*, `school_relation_table`.`school_relation_id`, `school_relation_table`.`school_id`, `school_relation_table`.`level_id`
 								FROM (
@@ -532,7 +532,7 @@ class Permissions
 		// Check to see if user has set personal information and verified account
 		// Delete information if so for complete account reset
 		if($result_row = $this->getAllUserIds($user_id)) {
-			$this->deletePersonalInfo($result_row->person_id, $result_row->login_relation_id, $result_row->school_relation_id, $result_row->position_id);
+			$this->deletePersonalInfo($result_row->person_id, $result_row->login_relation_id, $result_row->school_relation_id, $result_row->position_relation_id);
 		}
 
 		// Need to get user data for the email
@@ -583,7 +583,7 @@ class Permissions
 	 * Deletes all user info created except what is in the users table
 	 * This is used to reset the information in the account
 	 */
-	private function deletePersonalInfo($person_id, $login_relation_id, $school_relation_id, $position_id)
+	private function deletePersonalInfo($person_id, $login_relation_id, $school_relation_id, $position_relation_id)
 	{
 		if(empty($person_id)) {
 			$this->errors[] = "Person ID cannot be empty";
@@ -594,13 +594,13 @@ class Permissions
 		} else if(!preg_match('/^[0-9]*$/', $login_relation_id)) {
 			$this->errors[] = "Login Relation ID must be a number";
 		} else if(empty($school_relation_id)) {
-			$this->errors[] = "Login Relation ID cannot be empty";
+			$this->errors[] = "School Relation ID cannot be empty";
 		} else if(!preg_match('/^[0-9]*$/', $school_relation_id)) {
-			$this->errors[] = "Login Relation ID must be a number";
+			$this->errors[] = "School Relation ID must be a number";
 		} else if(empty($position_id)) {
-			$this->errors[] = "Login Relation ID cannot be empty";
-		} else if(!preg_match('/^[0-9]*$/', $position_id)) {
-			$this->errors[] = "Login Relation ID must be a number";
+			$this->errors[] = "Position Relation ID cannot be empty";
+		} else if(!preg_match('/^[0-9]*$/', $position_relation_id)) {
+			$this->errors[] = "Position Relation ID must be a number";
 		} else {
 			// Delete person info
 			$query = "DELETE FROM `person_table` WHERE `person_id` = :person_id;";
@@ -621,9 +621,9 @@ class Permissions
 			$query_delete_academic_info->execute();
 			
 			// Delete position info
-			$query = "DELETE FROM `position_relation_table` WHERE `position_id` = :position_id;";
+			$query = "DELETE FROM `position_relation_table` WHERE `position_relation_id` = :position_relation_id;";
 			$query_delete_position_info = $this->db_connection->prepare($query);
-			$query_delete_position_info->bindValue(':position_id', $position_id, PDO::PARAM_STR);
+			$query_delete_position_info->bindValue(':position_relation_id', $position_relation_id, PDO::PARAM_STR);
 			$query_delete_position_info->execute();
 
 			if($query_delete_person_info->rowCount() && $query_delete_login_info->rowCount() && $query_delete_academic_info->rowCount() && $query_position_info->rowCount())
@@ -692,9 +692,7 @@ class Permissions
 		$mail->Subject = EMAIL_RESET_ACCOUNT_SUBJECT;
 		
 		// Body of the email
-		$mail->Body = EMAIL_RESET_ACCOUNT_BODY . "\n
-			\tUser Name: $user_name
-			\tPassword: $user_password";
+		$mail->Body = EMAIL_RESET_ACCOUNT_BODY . "\n\nUser Name: $user_name\nPassword: $user_password";
 		
 		if(!$mail->Send()) {
 			$this->errors[] = MESSAGE_RESET_ACCOUNT_MAIL_NOT_SENT . $mail->ErrorInfo;
