@@ -136,51 +136,55 @@ if($permissions->isUserAdmin() == false)
 // Calls the incorrect modal if someone attempts to login but fails
 if(isset($login))
 {
-  if((isset($_POST['login']) || isset($_GET['require_verify'])) && $login->isUserLoggedIn() == false)
-  {
-    echo "
+	if((isset($_POST['login']) || isset($_GET['require_verify'])) && $login->isUserLoggedIn() == false)
+	{
+		echo "
     <script>
       $(document).ready(function() {
         $('#incorrectModal').modal('toggle');
       });
     </script>
-  ";
-  }
+		";
+	}
 }
 
 // Calls error and message modal if either of them for any of the objects is set
 if(isset($login) || isset($registration) || isset($permissions))
 {
-  // Prevents error from triggering on admin page as those messages are reserved for a confirmation modal
-  if($_SERVER['SCRIPT_NAME'] != "/account/admin_management.php")
-  {
-    if($login->errors || $login->messages || $registration->errors || $registration->messages || $permissions->errors || $permissions->messages)
-    {
-      // Prevents modal for login errors because this is controlled more closely by an incorrect modal login
-      if(!in_array(MESSAGE_LOGIN_FAILED, $login->errors) && !in_array(MESSAGE_PASSWORD_WRONG, $login->errors))
-      {
-        echo "
+	// Prevents error from triggering on admin page as those messages are reserved for a confirmation modal
+	if($_SERVER['SCRIPT_NAME'] != "/account/admin_management.php")
+	{
+		if($login->errors || $login->messages || $registration->errors || $registration->messages || $permissions->errors || $permissions->messages)
+		{
+			// Prevents modal for login errors because this is controlled more closely by an incorrect modal login
+			if(!in_array(MESSAGE_LOGIN_FAILED, $login->errors) && !in_array(MESSAGE_PASSWORD_WRONG, $login->errors))
+			{
+				// Login Command has not been sent (this gets rid of an annoying logout modal)
+				if(!isset($_GET['logout']))
+				{
+					echo "
     <script>
       $(document).ready(function() {
         $('#error_message_modal').modal('toggle');
       });
     </script>
-      ";
-      }
-    }
-  }
+					";
+				}
+			}
+		}
+	}
 }
 
 // Calls the require verify modal to inform user that they need to first verify their account before accessing something
 if(isset($_GET['require_verify']) && $login->isUserLoggedIn() == true)
 {
-  echo "
+	echo "
     <script>
       $(document).ready(function() {
         $('#require_verify_modal').modal('toggle');
       });
     </script>
-  ";
+	";
 }
 ?>
 
@@ -203,13 +207,13 @@ if(isset($_GET['require_verify']) && $login->isUserLoggedIn() == true)
               <!-- The login object is on each page so this works fine -->
               <!-- This CANNOT be blank as the "?logout" $_GET variable needs to be reset upon submission, otherwise the login object will close the session due to the logout command-->
 <?php
-if($login->isUserVerified() == true)
+if($login->isUserLoggedIn() == true && $login->isUserVerified() == true)
 {
-	echo"            <form id=\"signin_form\" role=\"form\" method=\"post\" action=\"" . $_SERVER['SCRIPT_NAME'] . "\">\n";
+	echo "            <form id=\"signin_form\" role=\"form\" method=\"post\" action=\"" . $_SERVER['SCRIPT_NAME'] . "\">\n";
 }
 else
 {
-	echo"            <form id=\"signin_form\" role=\"form\" method=\"post\" action=\"/account/verify.php\">\n";
+	echo "            <form id=\"signin_form\" role=\"form\" method=\"post\" action=\"/account/verify.php\">\n";
 }
 ?>
               <div class="form-group">
