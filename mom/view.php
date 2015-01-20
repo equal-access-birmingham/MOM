@@ -122,28 +122,30 @@ do
 		$time_start = new DateTime($result['start_time']);
 		
 		echo "
-      <h3>Volunteer Time $event_count</h3>
-      <ul>
-        <li>Role: " . $result['role_name']. "</li>
-        <li>Program: " . $result['program_name'] . "</li>
-        <li>Date: " . $date->format("F j, Y") . "</li>\n";
+      <div class=\"panel panel-default\">
+        <div class=\"panel-heading\"><h4>Volunteer Time $event_count</h4></div>
+        <ul class=\"list-group\">
+          <li class=\"list-group-item\">Role: " . $result['role_name']. "</li>
+          <li class=\"list-group-item\">Program: " . $result['program_name'] . "</li>
+          <li class=\"list-group-item\">Date: " . $date->format("F j, Y") . "</li>\n";
 
 		// If an arrival time is available, use it
 		if($result['arrival_time'])
 		{
 			echo "
-        <li>Arrival Time: " . $time->format("g:i A") . "</li>\n";
+          <li class=\"list-group-item\">Arrival Time: " . $time->format("g:i A") . "</li>\n";
 		}
 		// If it is not, just use the program start time
 		else
 		{
 			echo "
-        <li>Arrival Time: " . $time_start->format("g:i A") . "</li>\n";
+          <li class=\"list-group-item\">Arrival Time: " . $time_start->format("g:i A") . "</li>\n";
 		}
 
 		echo "
-        <li>Address: " . $result['address'] . "</li> 
-      </ul>\n";
+          <li class=\"list-group-item\">Address: " . $result['address'] . "</li> 
+        </ul>
+      </div>\n";
 		$event_count++;
 	}
 } while($result = $stmt_user_schedule->fetch());

@@ -44,6 +44,17 @@ if($permissions->confirm_action_prompt)
     </script>
 	";
 }
+else if($permissions->errors)
+{
+	// Triggers modal if there are errors after confirming action
+	echo "
+    <script>
+      $(document).ready(function() {
+        $('#error_modal').modal('toggle');
+      });
+    </script>
+	";
+}
 ?>
 
     <!-- Modal to confirm action (modify admin status, reset account, delete account) -->
@@ -88,6 +99,41 @@ if (isset($permissions)) {
       </div>
     </div>
 
+    <!-- Modal for any errors that occur after confirmation -->
+    <div id="error_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmAction" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <img class="modal-logo" src="/images/EABLogo.png" alt="EAB Logo" />
+          </div>
+          <div class="modal-body">
+            <h4 class="modal-body-header"><strong>Error</strong></h4>
+            <ul>
+<?php
+// show potential errors / feedback (from Permissions object)
+// In this case, this shows what actions will occur if "Confirm" is pressed
+if (isset($permissions)) {
+    if ($permissions->errors) {
+        foreach ($permissions->errors as $error) {
+            echo "          <li>$error</li>";
+        }
+    }
+}
+?>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-eab" data-dismiss="modal">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start body content -->
     <div class="container no-image">
       <h2><?php echo $_SESSION['user_name']. ", " . WORDING_ADMIN_EDIT_ACCOUNTS; ?></h2>
 

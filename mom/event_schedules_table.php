@@ -117,7 +117,7 @@ while($result = $stmt_signup_table->fetch())
           <tr>
             <td>" . $result['fname'] . "</td>
             <td>" . $result['lname'] . "</td>
-            <td>" . $result['user_email'] . "</td>
+            <td><a href=\"mailto:" . $result['user_email'] . "\">" . $result['user_email'] . "</a></td>
             <td>" . $result['program_name'] . "</td>
             <td>" . $date->format("F j, Y") . "</td>
             <td>" . $result['role_name'] . "</td>

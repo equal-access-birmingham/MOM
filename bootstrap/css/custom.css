@@ -551,6 +551,11 @@ html, body {
 	background-image: url("../../images/volunteers/officers.jpg");
 }
 
+/* Third division image for volunteer information page */
+.volunteer-div3-img {
+	background-image: url("../../images/volunteers/steven.jpg");
+}
+
 /* Patients Page */
 /* Hero image for patients page */
 .patients-img {

@@ -1,5 +1,7 @@
 <?php
-
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
+//ini_set('display_startup_errors', TRUE);
 /**
  * A simple PHP Login Script / ADVANCED VERSION
  * For more versions (one-file, minimal, framework-like) visit http://www.php-login.net
@@ -50,20 +52,35 @@ $permissions = new Permissions();
 // Method of requiring login on a page
 if($login->isUserLoggedIn() == false && $require_login == true)
 {
+
 	header("Location: /index.php?logout");
+	exit();
 }
 
 // Method of requiring admin on a page
 if($permissions->isUserAdmin() == false && $require_admin == true)
 {
 	header("Location: /index.php?logout");
+	exit();
 }
 
-// Method of requiring account verification on a page
-if($login->isUserVerified() == false && $require_verified_account == true)
+// Sends logout signal and incorrect password signal
+// Needed for those that click directly on MOM link as it will do a redirect with incorrect login with no information sent without $_GET variables placed
+if($_POST['login'] && $login->isUserLoggedIn() == false)
 {
-	header("Location: /index.php?require_verify");
+	header("Location: /index.php?logout&incorrectLogin");
+	exit();
 }
+
+// Redirects user to the verify page if their account is not verified (header does not work if user is on the verify page to prevent redirect loop)
+// An unverified user has no choice but to verify account upon login as no other page will work without verification
+if($login->isUserLoggedIn() == true && $login->isUserVerified() == false && $verify_page == false)
+{
+	header("Location: /account/verify.php");
+	exit();
+}
+
+
 ?>
 
 <!DOCTYPE html>

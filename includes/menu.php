@@ -53,7 +53,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Volunteers <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="/volunteer_information.php">How To</a></li>
+                <li><a href="/volunteer_information.php">Getting Started</a></li>
 <?php
 if($login->isUserLoggedIn() == true)
 {
@@ -136,7 +136,7 @@ if($permissions->isUserAdmin() == false)
 // Calls the incorrect modal if someone attempts to login but fails
 if(isset($login))
 {
-	if((isset($_POST['login']) || isset($_GET['require_verify'])) && $login->isUserLoggedIn() == false)
+	if((isset($_POST['login']) || isset($_GET['incorrectLogin'])) && $login->isUserLoggedIn() == false)
 	{
 		echo "
     <script>
@@ -154,23 +154,16 @@ if(isset($login) || isset($registration) || isset($permissions))
 	// Prevents error from triggering on admin page as those messages are reserved for a confirmation modal
 	if($_SERVER['SCRIPT_NAME'] != "/account/admin_management.php")
 	{
-		if($login->errors || $login->messages || $registration->errors || $registration->messages || $permissions->errors || $permissions->messages)
+		// If any errors or messages are set that are not null
+		if($login->errors || $login->messages || $registration->errors || $registration->messages || $permissions->errors || $permissions->messages || isset($_SESSION['messages']) && $_SESSION['messages'] != null)
 		{
-			// Prevents modal for login errors because this is controlled more closely by an incorrect modal login
-			if(!in_array(MESSAGE_LOGIN_FAILED, $login->errors) && !in_array(MESSAGE_PASSWORD_WRONG, $login->errors))
-			{
-				// Login Command has not been sent (this gets rid of an annoying logout modal)
-				if(!isset($_GET['logout']))
-				{
-					echo "
+			echo "
     <script>
       $(document).ready(function() {
         $('#error_message_modal').modal('toggle');
       });
     </script>
-					";
-				}
-			}
+			";
 		}
 	}
 }
@@ -182,6 +175,18 @@ if(isset($_GET['require_verify']) && $login->isUserLoggedIn() == true)
     <script>
       $(document).ready(function() {
         $('#require_verify_modal').modal('toggle');
+      });
+    </script>
+	";
+}
+
+// Trigger error log modal
+if(isset($_SESSION['error_log']))
+{
+	echo "
+    <script>
+      $(document).ready(function() {
+        $('#error_log_modal').modal('toggle');
       });
     </script>
 	";
@@ -206,16 +211,8 @@ if(isset($_GET['require_verify']) && $login->isUserLoggedIn() == true)
               <!-- Action is the current loction on the server -->
               <!-- The login object is on each page so this works fine -->
               <!-- This CANNOT be blank as the "?logout" $_GET variable needs to be reset upon submission, otherwise the login object will close the session due to the logout command-->
-<?php
-if($login->isUserLoggedIn() == true && $login->isUserVerified() == true)
-{
-	echo "            <form id=\"signin_form\" role=\"form\" method=\"post\" action=\"" . $_SERVER['SCRIPT_NAME'] . "\">\n";
-}
-else
-{
-	echo "            <form id=\"signin_form\" role=\"form\" method=\"post\" action=\"/account/verify.php\">\n";
-}
-?>
+
+            <form id="signin_form" role="form" method="post" action="<?php echo $_SERVER['SCRIPT_NAME'] ?>">
               <div class="form-group">
                 <input id="user_name" class="form-control login_input" type="text" name="user_name" placeholder="User Name" required />
               </div>
@@ -295,6 +292,14 @@ if (isset($login))
 			echo "          <li>Login Message: $message</li>\n";
 		}
 	}
+	// catches the few confirmatory messages that are sent through redirect upon user account verification
+	if(isset($_SESSION['messages']))
+	{
+		foreach($_SESSION['messages'] as $verify_message)
+		{
+			echo "          <li>Login Message: $verify_message</li>\n";
+		}
+	}
 }
 
 // show potential errors / feedback (from Permissions object)
@@ -358,6 +363,33 @@ if (isset($registration))
           <div class="modal-body">
             <h4 class="modal-body-header"><strong>Required Account Verification</strong></h4>
             <p>Please <a href="/account/verify.php">verify your account</a> before accessing that page</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-eab" data-dismiss="modal">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error log modal -->
+    <div class="modal fade" id="error_log_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <img class="modal-logo" src="/images/EABLogo.png" alt="EAB Logo" />
+          </div>
+          <div class="modal-body">
+            <h4 class="modal-body-header"><strong>Error Log</strong></h4>
+<?php
+foreach($_SESSION['error_log'] as $error_log)
+{
+	echo "<p>$error_log</p>";
+}
+?>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-eab" data-dismiss="modal">Ok</button>

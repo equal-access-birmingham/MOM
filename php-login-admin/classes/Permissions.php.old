@@ -353,23 +353,6 @@ class Permissions
 		}
 	}
 
-	private function verifyAccount($user_name)
-	{
-		// Note that there is no check for a blank user_name as this function shouldn't ever be filled with
-		// a blank user name since it is only to be used internally
-
-		// Get user info on selected user
-		$result_row = $this->getAllUserData($user_name);
-		// Determine if the account is valid
-		if($result_row->user_password_change == 0 || !$result_row->fname || !$result_row->lname || !$result_row->gender_id || !$result_row->dob || !$result_row->phone_number || !$result_row->school_id || !$result_row->level_id) {
-			// User has not changed password and account is not valid
-			return false;
-		}
-		// Default return
-		return true;
-	}
-
-
 	/**
 	 * checks whether the user is admin and set $this->user_is_admin = true if user is admin --> __construct()
 	 */
@@ -475,6 +458,7 @@ class Permissions
 	 */
 	private function modifyAdminStatus($admin_delete_list, $admin_add_list)
 	{
+		
 		if($this->databaseConnection())
 		{
 			/**
@@ -525,7 +509,7 @@ class Permissions
 			if($result_row->user_name == $_SESSION['user_name'])
 			{
 				$this->errors[] = MESSAGE_RESET_PERSONAL_ACCOUNT_ERROR;
-				array_splice($user_array, $i, 1);
+				array_splice($user_array, $i, 1, true);
 			}
 			else
 			{
@@ -541,108 +525,118 @@ class Permissions
 	}
 	
 	/**
-	 * Resets a user's account and password upon selection (used when user allows temp password to expire or doesn't remember password)
-	 * Deletes personal information if user has verified account
+	 * Resets a user's account and password upon selection (used when user allows temp password to expire)
 	 */
 	public function resetAccount($user_id)
 	{
-		// Checking for valid user_id input
-		if(empty($user_id)) {
-			$this->errors[] = "The user ID can't be empty.";
-		} else if(!preg_match('/^[0-9]*$/', $user_id)) {
-			$this->errors[] = "The user ID must be a number";
-		} else if($this->databaseConnection()) {
-			// Get all user information in user table (need user_email and user_name)
-			$result_row = $this->getUserDataById($user_id);
+		// Check to see if user has set personal information and verified account
+		// Delete information if so for complete account reset
+		if($result_row = $this->getAllUserIds($user_id)) {
+			$this->deletePersonalInfo($result_row->person_id, $result_row->login_relation_id, $result_row->school_relation_id, $result_row->position_relation_id);
+		}
 
-			// Start transaction to ensure all deletions and updates go through at once
-			$this->db_connection->beginTransaction();
+		// Need to get user data for the email
+		$result_row = $this->getUserDataById($user_id);
+		// Creates a new random 10 character password for the user
+		$user_password = $this->createRandomPassword();
+		
+		// check if we have a constant HASH_COST_FACTOR defined (in config/hashing.php),
+		// if so: put the value into $hash_cost_factor, if not, make $hash_cost_factor = null
+		$hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
 
-			// Variable to determine if everything in transaction is successful
-			$transaction_ok = true;
-
-			// Check to see if user has set personal information and verified account
-			// Delete information if so for complete account reset
-			if($this->verifyAccount($result_row->user_name))
+		// crypt the user's password with the PHP 5.5's password_hash() function, results in a 60 character hash string
+		// the PASSWORD_DEFAULT constant is defined by the PHP 5.5, or if you are using PHP 5.3/5.4, by the password hashing
+		// compatibility library. the third parameter looks a little bit shitty, but that's how those PHP 5.5 functions
+		// want the parameter: as an array with, currently only used with 'cost' => XX.
+		$user_password_hash = password_hash($user_password, PASSWORD_DEFAULT, array('cost' => $hash_cost_factor));
+		
+		$query = "UPDATE `users` SET `user_password_hash` = :user_password_hash, `user_registration_datetime` = now(), `user_password_change` = 0 WHERE `user_id` = :user_id;";
+		$query_reset_account_update = $this->db_connection->prepare($query);
+		$query_reset_account_update->bindValue(":user_password_hash", $user_password_hash, PDO::PARAM_STR);
+		$query_reset_account_update->bindValue(":user_id", $user_id, PDO::PARAM_STR);
+		$query_reset_account_update->execute();
+		
+		// unsets the variable so that it cannot be re-triggered through refreshing
+		unset($_SESSION['reset_user_accounts_array']);
+		
+		if($query_reset_account_update->rowCount())
+		{
+			// Send an email with the user name and password for the account
+			if($this->sendResetAccountEmail($result_row->user_name, $result_row->user_email, $user_password))
 			{
-				// Get all user_ids
-				$database_ids = $this->getAllUserIds($user_id);
-
-				// Deleting the person info in the person_table
-				// This is all that is necessary to delete personal information as the other info (login_relation_id, school_relation_id, and position_relation_id) is controlled by cascading foreign keys
-				$query = "DELETE FROM `person_table` WHERE `person_id` = :person_id;";
-				$query_delete_person_info = $this->db_connection->prepare($query);
-				$query_delete_person_info->bindValue(':person_id', $database_ids->person_id, PDO::PARAM_STR);
-				$query_delete_person_info->execute();
-
-				// If the above query fails, the transaction fails
-				if(!$query_delete_person_info->rowCount())
-				{
-					$transaction_ok = false;
-				}
+				// Mail sent successfully
+				$this->messages[] = MESSAGE_RESET_ACCOUNT_MAIL_SENT;
 			}
-
-			// Creates a new random 10 character password for the user
-			$user_password = $this->createRandomPassword();
-			
-			// check if we have a constant HASH_COST_FACTOR defined (in config/hashing.php),
-			// if so: put the value into $hash_cost_factor, if not, make $hash_cost_factor = null
-			$hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
-
-			// crypt the user's password with the PHP 5.5's password_hash() function, results in a 60 character hash string
-			// the PASSWORD_DEFAULT constant is defined by the PHP 5.5, or if you are using PHP 5.3/5.4, by the password hashing
-			// compatibility library. the third parameter looks a little bit shitty, but that's how those PHP 5.5 functions
-			// want the parameter: as an array with, currently only used with 'cost' => XX.
-			$user_password_hash = password_hash($user_password, PASSWORD_DEFAULT, array('cost' => $hash_cost_factor));
-			
-			// Reset password (this is done every time even if the account isn't verified)
-			$query = "UPDATE `users` SET `user_password_hash` = :user_password_hash, `user_registration_datetime` = now(), `user_password_change` = 0 WHERE `user_id` = :user_id;";
-			$query_reset_account_update = $this->db_connection->prepare($query);
-			$query_reset_account_update->bindValue(":user_password_hash", $user_password_hash, PDO::PARAM_STR);
-			$query_reset_account_update->bindValue(":user_id", $user_id, PDO::PARAM_STR);
-			$query_reset_account_update->execute();
-
-			// If password could not be updated, transaction invalid
-			if(!$query_reset_account_update->rowCount())
-			{
-				$transaction_ok = false;
-			}
-
-			// unsets the variable so that it cannot be re-triggered through refreshing
-			unset($_SESSION['reset_user_accounts_array']);
-			
-			// If the transaction is ok
-			if($transaction_ok)
-			{
-				// Send an email with the user name and password for the account
-				if($this->sendResetAccountEmail($result_row->user_name, $result_row->user_email, $user_password))
-				{
-					// commit changes to database
-					$this->db_connection->commit();
-					$this->messages[] = MESSAGE_RESET_ACCOUNT_MAIL_SENT;
-				}
-				// Email could not send
-				else
-				{
-					// Undo database changes because mail was not sent and send error
-					$this->db_connection->rollBack();
-					$this->errors[] = MESSAGE_RESET_ACCOUNT_MAIL_ERROR;
-				}
-			}
-			// transaction invalid
 			else
 			{
-				// Undo database changes because all queries were not successful and send error
-				$this->db_connection->rollBack();
-				$this->errors[] = MESSAGE_RESET_ACCOUNT_FAILED;
+				// Error message for inability to send email
+				$this->errors[] = MESSAGE_RESET_ACCOUNT_MAIL_ERROR;
 			}
 		}
 		else
 		{
-			// Could not connect to database
-			$this->errors[] = MESSAGE_DATABASE_ERROR;
+			$this->errors[] = MESSAGE_RESET_ACCOUNT_FAILED;
 		}
 	}
+
+	/**
+	 * Deletes all user info created except what is in the users table
+	 * This is used to reset the information in the account
+	 */
+	private function deletePersonalInfo($person_id, $login_relation_id, $school_relation_id, $position_relation_id)
+	{
+		if(empty($person_id)) {
+			$this->errors[] = "Person ID cannot be empty";
+		} else if(!preg_match('/^[0-9]*$/', $person_id)) {
+			$this->errors[] = "Person ID must be a number";
+		} else if(empty($login_relation_id)) {
+			$this->errors[] = "Login Relation ID cannot be empty";
+		} else if(!preg_match('/^[0-9]*$/', $login_relation_id)) {
+			$this->errors[] = "Login Relation ID must be a number";
+		} else if(empty($school_relation_id)) {
+			$this->errors[] = "School Relation ID cannot be empty";
+		} else if(!preg_match('/^[0-9]*$/', $school_relation_id)) {
+			$this->errors[] = "School Relation ID must be a number";
+		} else if(empty($position_relation_id)) {
+			$this->errors[] = "Position Relation ID cannot be empty";
+		} else if(!preg_match('/^[0-9]*$/', $position_relation_id)) {
+			$this->errors[] = "Position Relation ID must be a number";
+		} else {
+			// Delete person info
+			$query = "DELETE FROM `person_table` WHERE `person_id` = :person_id;";
+			$query_delete_person_info = $this->db_connection->prepare($query);
+			$query_delete_person_info->bindValue(':person_id', $person_id, PDO::PARAM_STR);
+			$query_delete_person_info->execute();
+
+			// Delete login info
+			$query = "DELETE FROM `login_relation_table` WHERE `login_relation_id` = :login_relation_id;";
+			$query_delete_login_info = $this->db_connection->prepare($query);
+			$query_delete_login_info->bindValue(':login_relation_id', $login_relation_id, PDO::PARAM_STR);
+			$query_delete_login_info->execute();
+			
+			// Delete academic info
+			$query = "DELETE FROM `school_relation_table` WHERE `school_relation_id` = :school_relation_id;";
+			$query_delete_academic_info = $this->db_connection->prepare($query);
+			$query_delete_academic_info->bindValue(':school_relation_id', $school_relation_id, PDO::PARAM_STR);
+			$query_delete_academic_info->execute();
+			
+			// Delete position info
+			$query = "DELETE FROM `position_relation_table` WHERE `position_relation_id` = :position_relation_id;";
+			$query_delete_position_info = $this->db_connection->prepare($query);
+			$query_delete_position_info->bindValue(':position_relation_id', $position_relation_id, PDO::PARAM_STR);
+			$query_delete_position_info->execute();
+
+			if($query_delete_person_info->rowCount() && $query_delete_login_info->rowCount() && $query_delete_academic_info->rowCount() && $query_position_info->rowCount())
+			{
+				// deletion was successful
+				return true;
+			}
+		}
+
+		// default return
+		return false;
+	}
+
 	
 	/**
 	 * Creates a cryptographically random password
@@ -698,8 +692,8 @@ class Permissions
 		$mail->Subject = EMAIL_RESET_ACCOUNT_SUBJECT;
 		
 		// Body of the email
-		$mail->Body = EMAIL_RESET_ACCOUNT_BODY . "User Name: $user_name\nPassword: $user_password" . EMAIL_FOOTER_AND_SIGNATURE;
-
+		$mail->Body = EMAIL_RESET_ACCOUNT_BODY . "\n\nUser Name: $user_name\nPassword: $user_password";
+		
 		if(!$mail->Send()) {
 			$this->errors[] = MESSAGE_RESET_ACCOUNT_MAIL_NOT_SENT . $mail->ErrorInfo;
 			return false;
@@ -724,7 +718,7 @@ class Permissions
 			if($result_row->user_name == $_SESSION['user_name'])
 			{
 				$this->errors[] = MESSAGE_DELETE_PERSONAL_ACCOUNT_ERROR;
-				array_splice($user_array, $i, 1);
+				array_splice($user_array, $i, 1, true);
 			}
 			else
 			{

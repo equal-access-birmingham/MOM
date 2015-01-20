@@ -305,8 +305,10 @@ foreach($programs as $program_id => $program)
       </form><hr />
 
       <h3>View Schedule</h3>
-      <table id="master_schedule" class="table table-striped text-center">
-      </table>
+      <div class="table-responsive">
+        <table id="master_schedule" class="table table-striped text-center">
+        </table>
+      </div>
 
     </div>
 

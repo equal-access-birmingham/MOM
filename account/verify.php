@@ -1,13 +1,22 @@
 <?php
 $require_login = true;
+$verify_page = true;
 
 $path_to_root = str_repeat("../", substr_count($_SERVER['SCRIPT_NAME'], "/") - 1);
 require_once($path_to_root . "includes/header.php");
+
+// Catch messages for display to user through refresh upon actual verification
+$_SESSION['messages'] = $login->messages;
+
+// Counts page refreshes for unset in footer only after any 2 page refreshes
+// For some reason, header() actually executes destination without actually loading it, executes it on 2nd refresh
+$_SESSION['count_refresh'] = 0;
 
 // Prevents verified users from accessing this page again (might pose a problem with the database if they can...)
 if($login->isUserVerified() == true)
 {
 	header("Location: /index.php");
+	exit();
 }
 ?>
 
@@ -67,7 +76,7 @@ $stmt_level->execute();
       <?php echo "<p>You have " . $_SESSION['verify_time'] . " days remaining to verify your account before it is terminated.</p>"; ?>
 
       <!-- edit form for user's password / this form uses the HTML5 attribute "required" -->
-      <form method="post" action="/index.php">
+      <form method="post" action="">
         <!-- Edit user password -->
         <div class="form-group">
           <label for="user_password_old"><?php echo WORDING_OLD_PASSWORD; ?>*</label>

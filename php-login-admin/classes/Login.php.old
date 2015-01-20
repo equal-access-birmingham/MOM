@@ -57,7 +57,6 @@ class Login
 	/**
 	 * @var array $messages Collection of success / neutral messages
 	 */
-	public  $messages = array();
 
 	/**
 	 * the function "__construct()" automatically starts whenever an object of this class is created,
@@ -159,9 +158,7 @@ class Login
 
 		// Verifies status of account on each page with $login object
 		// This is last so that it will pick up any recent changes
-		if(isset($_SESSION['user_name'])) {
-			$this->verifyAccount($_SESSION['user_name']);
-		}
+		$this->verifyAccount($_SESSION['user_name']);
 	}
 
 	/**
@@ -325,9 +322,7 @@ class Login
 			if (!isset($result_row->user_id)) {
 				// was MESSAGE_USER_DOES_NOT_EXIST before, but has changed to MESSAGE_LOGIN_FAILED
 				// to prevent potential attackers showing if the user exists
-				
-				/*** I am controlling this with a special modal, just uncomment if you want this to display ***/
-				//$this->errors[] = MESSAGE_LOGIN_FAILED;
+				$this->errors[] = MESSAGE_LOGIN_FAILED;
 			} else if (($result_row->user_failed_logins >= 3) && ($result_row->user_last_failed_login > (time() - 30))) {
 				$this->errors[] = MESSAGE_PASSWORD_WRONG_3_TIMES;
 			// using PHP 5.5's password_verify() function to check if the provided passwords fits to the hash of that user's password
@@ -338,8 +333,7 @@ class Login
 						. 'WHERE user_name = :user_name OR user_email = :user_name');
 				$sth->execute(array(':user_name' => $user_name, ':user_last_failed_login' => time()));
 
-				/*** I am controlling this with a special modal, just uncomment if you want this to display ***/
-				//$this->errors[] = MESSAGE_PASSWORD_WRONG;
+				$this->errors[] = MESSAGE_PASSWORD_WRONG;
 			// does the user have a valid account
 			} elseif ($this->denyLogin($user_name) == true) {
 				
@@ -448,7 +442,7 @@ class Login
 		session_destroy();
 
 		$this->user_is_logged_in = false;
-		//$this->messages[] = MESSAGE_LOGGED_OUT;
+		$this->messages[] = MESSAGE_LOGGED_OUT;
 	}
 
 	/**
@@ -521,9 +515,6 @@ class Login
 			// Format phone number to (###) ###-#### to be received by database
 			$phone_number = "(" . $area_code . ") " . $region_code . "-" . $last_four;
 			
-			// Begin transaction for insertion so that everything gets inserted at once
-			$this->db_connection->beginTransaction();
-
 			// Puts appropriate info in person_table
 			$query = "INSERT INTO `person_table` VALUES ('', :fname, :mname, :lname, :suffname, :gender, :dob, :phone_number);";
 			$query_personal_info = $this->db_connection->prepare($query);
@@ -536,25 +527,38 @@ class Login
 			$query_personal_info->bindValue(':phone_number', $phone_number, PDO::PARAM_STR);
 			$query_personal_info->execute();
 
-			// Grab person_id for next insert queries
+			// Checks to see if everything went into the database
+			$person_info_count = $query_personal_info->rowCount();
+
+			// Grabs the person_id for insertion into the login_relation_table
 			$person_id = $this->db_connection->lastInsertId();
 
 			// Inserts appropriate id's into the login_relation_table to relate a user_id to the personal info
-			$query = "INSERT INTO `login_relation_table` (`person_id`, `user_id`) VALUES (:person_id, :user_id);";
+			$query = "INSERT INTO `login_relation_table` VALUES ('', :person_id, :user_id);";
 			$query_login_info = $this->db_connection->prepare($query);
 			$query_login_info->bindValue(':person_id', $person_id, PDO::PARAM_STR);
 			$query_login_info->bindValue(':user_id', $user_id, PDO::PARAM_STR);
 			$query_login_info->execute();
 
-			// Grab login_relation_id for future insert queries
+			// Checks to see if the login_info was properly inserted into the login_relation_table
+			$login_info_count = $query_login_info->rowCount();
+
+			// Grabs the login_relation_id for insertion into the school_relation_table
 			$login_relation_id = $this->db_connection->lastInsertId();
 
 			// Inserts academic information into school_relation_table (remember that the user is submitting ID's through a dropdown)
-			$query = "INSERT INTO `school_relation_table` (`login_relation_id`, `school_id`, `level_id`) VALUES (:login_relation_id, :school_id, :level_id);";
+			$query = "INSERT INTO `school_relation_table` VALUES ('', :login_relation_id, :school_id, :level_id);";
 			$query_academic_info = $this->db_connection->prepare($query);
 			$query_academic_info->bindValue(':login_relation_id',  $login_relation_id, PDO::PARAM_STR);
 			$query_academic_info->bindValue(':school_id', $school_id, PDO::PARAM_STR);
 			$query_academic_info->bindValue(':level_id', $level_id, PDO::PARAM_STR);
+			$query_academic_info->execute();
+
+			// Checks to see if the academic info was correctly inserted into the school_relation_table
+			$academic_info_count = $query_academic_info->rowCount();
+
+			//Grabs the school_relation_id for possible deletion
+			$school_relation_id = $this->db_connection->lastInsertId();
 
 			// Queries for the id of a volunteer position
 			$query = "SELECT * FROM `position_table` WHERE `position_name` = 'Volunteer';";
@@ -562,7 +566,6 @@ class Login
 			$query_position->execute();
 			$result = $query_position->fetchObject();
 			$volunteer_id = $result->position_id;
-			$query_academic_info->execute();
 
 			// Inserts user as a volunteer
 			$query = "INSERT INTO `position_relation_table` (`login_relation_id`, `position_id`) VALUES (:login_relation_id, :position_id);";
@@ -571,29 +574,89 @@ class Login
 			$query_position_info->bindValue(':position_id', $volunteer_id, PDO::PARAM_STR);
 			$query_position_info->execute();
 
-			// If everything, was inserted correctly, attempt to modify password
-			if($query_personal_info->rowCount() && $query_login_info->rowCount() && $query_academic_info->rowCount() && $query_position_info->rowCount()) {
-				if($this->editUserPassword($user_password_old, $user_password_new, $user_password_repeat)) {
-					// Commit all insertions to the database, as everything has worked at this point
-					$this->db_connection->commit();
+			// Checks to see if the position info was correctly inserted into the school_relation_table
+			$position_info_count = $query_position_info->rowCount();
 
+			//Grabs the position_id for possible deletion
+			$position_id = $this->db_connection->lastInsertId();
+
+			if($person_info_count && $login_info_count && $academic_info_count && $position_info_count) {
+				if($this->editUserPassword($user_password_old, $user_password_new, $user_password_repeat)) {
 					$this->messages[] = "Personal information was updated.";
 					return true;
 				} else {
-					// Password failed to update, remove personal information
-					$this->db_connection->rollBack();
+					// Password failed to update
+					$this->deletePersonalInfo($person_id, $login_relation_id, $school_relation_id, $position_id);
 
 					// Letting the editUserPassword function do error reporting here (i.e. I don't need more error reporting)
 				}
 			} else {
-				// Personal info has failed to be uploaded, undo personal information insert
-				$this->db_connection->rollBack();
+				// Personal info has failed to be uploaded, delete info that was uploaded
+				$this->deletePersonalInfo($person_id, $login_relation_id, $school_relation_id, $position_id);
 
 				$this->errors[] = "Personal information could not be stored in the database.  Account has not been verified.";
 			}
 		}
 
 		// Default return
+		return false;
+	}
+
+	/**
+	 * Deletes all user info created except what is in the users table
+	 * This is used to control verification
+	 */
+	private function deletePersonalInfo($person_id, $login_relation_id, $school_relation_id, $position_id)
+	{
+		if(empty($person_id)) {
+			$this->errors[] = "Person ID cannot be empty";
+		} else if(!preg_match('/^[0-9]*$/', $person_id)) {
+			$this->errors[] = "Person ID must be a number";
+		} else if(empty($login_relation_id)) {
+			$this->errors[] = "Login Relation ID cannot be empty";
+		} else if(!preg_match('/^[0-9]*$/', $login_relation_id)) {
+			$this->errors[] = "Login Relation ID must be a number";
+		} else if(empty($school_relation_id)) {
+			$this->errors[] = "Login Relation ID cannot be empty";
+		} else if(!preg_match('/^[0-9]*$/', $school_relation_id)) {
+			$this->errors[] = "Login Relation ID must be a number";
+		} else if(empty($position_id)) {
+			$this->errors[] = "Login Relation ID cannot be empty";
+		} else if(!preg_match('/^[0-9]*$/', $position_id)) {
+			$this->errors[] = "Login Relation ID must be a number";
+		} else {
+			// Delete person info
+			$query = "DELETE FROM `person_table` WHERE `person_id` = :person_id;";
+			$query_delete_person_info = $this->db_connection->prepare($query);
+			$query_delete_person_info->bindValue(':person_id', $person_id, PDO::PARAM_STR);
+			$query_delete_person_info->execute();
+
+			// Delete login info
+			$query = "DELETE FROM `login_relation_table` WHERE `login_relation_id` = :login_relation_id;";
+			$query_delete_login_info = $this->db_connection->prepare($query);
+			$query_delete_login_info->bindValue(':login_relation_id', $login_relation_id, PDO::PARAM_STR);
+			$query_delete_login_info->execute();
+			
+			// Delete academic info
+			$query = "DELETE FROM `school_relation_table` WHERE `school_relation_id` = :school_relation_id;";
+			$query_delete_academic_info = $this->db_connection->prepare($query);
+			$query_delete_academic_info->bindValue(':school_relation_id', $school_relation_id, PDO::PARAM_STR);
+			$query_delete_academic_info->execute();
+			
+			// Delete position info
+			$query = "DELETE FROM `position_relation_table` WHERE `position_id` = :position_id;";
+			$query_delete_position_info = $this->db_connection->prepare($query);
+			$query_delete_position_info->bindValue(':position_id', $position_id, PDO::PARAM_STR);
+			$query_delete_position_info->execute();
+
+			if($query_delete_person_info->rowCount() && $query_delete_login_info->rowCount() && $query_delete_academic_info->rowCount() && $query_position_info->rowCount())
+			{
+				// deletion was successful
+				return true;
+			}
+		}
+
+		// default return
 		return false;
 	}
 

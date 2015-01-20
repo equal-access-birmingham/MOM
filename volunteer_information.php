@@ -84,6 +84,30 @@
     <!-- Picture Section Break -->
     <div class="picture-div volunteer-div2-img"></div>
 
+    <!-- How to Switch Schedule -->
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="vcenter vcenter-ht-500">
+            <h1>Switching Your Schedule</h1>
+            <p class="lead">
+              Can't make your volunteer time?  Just find someone to switch with and then 
+              contact EAB's volunteer coordinator Erika Johnson at 
+              <a href="mailto:emjohnso@uab.edu">emjohnso@uab.edu</a>.  
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="vcenter vcenter-ht-500 text-center">
+            <img src="/images/volunteers/volunteer_swap_clipart.png" alt="Calendar" class="img-rounded vcenter-img-md" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Picture Section Break -->
+    <div class="picture-div volunteer-div3-img"></div>
+
     <div id="role_descriptions" class="container">
       <h1>Volunteer Roles</h1>
       <div class="panel-group" id="accordian" role="tablist" aria-multiselectable="true">
@@ -174,7 +198,7 @@
           </div>
           <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
             <div class="panel-body">
-              <p><strong>Description</strong></p>
+              <p><strong>Description:</strong></p>
               <p>
                 This position is responsible for working with the dispensary leader 
                 in order to manage and fill incoming prescriptions.
@@ -183,6 +207,31 @@
               <p>
                 Volunteers at this position can be medical students at UAB, pharmacy 
                 students at Samford or Auburn, or pre-med undergraduates at UAB.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-eab">
+          <div class="panel-heading" role="tab" id="headingFive">
+            <h4 class="panel-title">
+              <a class="collapsed" data-toggle="collapse" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                Shadowing Student
+              </a>
+            </h4>
+          </div>
+          <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+            <div class="panel-body">
+              <p><strong>Description:</strong></p>
+              <p>
+                This role is an opportunity for both pre-med undergraduates and MS1's to 
+                experience the clinic first-hand.  For undergraduates, this is a good way to 
+                take a look into the medical field.  For MS1's, this role is a great 
+                opportunity to become familiar with the clinic for later volunteering.
+              </p>
+              <p><strong>Requirements:</strong></p>
+              <p>
+                Volunteers at this position can be medical students at UAB or pre-med 
+                undergraduates at UAB.
               </p>
             </div>
           </div>

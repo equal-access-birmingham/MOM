@@ -102,7 +102,8 @@ if($login->isUserLoggedIn() == true)
             </p>
             <p>
               Have more specific questions?  Just contact EAB's volunteer coordinator 
-              <a href="mailto:emjohnso@uab.edu>">Erika Johnson</a>.
+              <a href="mailto:emjohnso@uab.edu>">Erika Johnson</a> or, for IT related 
+              questions, <a href="mailto:eabitteam@gmail.com">EAB's IT Team</a>.
             </p>
           </div>
           <div class="modal-footer">

@@ -111,6 +111,10 @@ if($confirm == "y" || $confirm == "yes")
 				fwrite(STDOUT, "Error: could not make $result_position_exist->fname $result_position_exist->lname a volunteer as needed.\n");
 			}
 		}
+		else
+		{
+			
+		}
 	}
 
 }

@@ -7,9 +7,6 @@ require_once($path_to_root . "includes/header.php");
 ?>
 
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-
 // Gets HTTP variables from account_management.php
 $user_name = strtolower($_GET['user_name']);
 $fname = strtolower($_GET['fname']);
@@ -38,7 +35,7 @@ foreach($permissions->getEveryUsersData($user_name, $fname, $lname, $school, $le
             <td>$result->user_name</td>
             <td>$result->fname</td>
             <td>$result->lname</td>
-            <td>$result->user_email</td>
+            <td><a href=\"mailto:$result->user_email\">$result->user_email</a></td>
             <td>$result->school_name</td>
             <td>$result->level_name</td>\n";
 

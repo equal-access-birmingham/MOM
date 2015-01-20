@@ -1,6 +1,19 @@
   </body>
   <footer>
-
+<?php
+// unsets $_SESSION['messages'] to prevent it from continually filling up
+if(isset($_SESSION['messages']))
+{
+	// Counting page refreshes and unsets session messages on second refresh
+	// Page executes without loading on first refresh which will unset variables without displaying content
+	$_SESSION['count_refresh'] += 1;
+	if($_SESSION['count_refresh'] == 2)
+	{
+		unset($_SESSION['messages']);
+		unset($_SESSION['count_refesh']);
+	}
+}
+?>
     <script>
       // Schedule login -- allows login straight to schedule when not logged in
       $(document).ready(function() {
