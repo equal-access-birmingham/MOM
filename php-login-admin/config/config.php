@@ -68,6 +68,7 @@ define("EMAIL_SMTP_USERNAME", "iteabirmingham");
 define("EMAIL_SMTP_PASSWORD", "x24587Z52S5lZ1WmYq83d09fF82EB86L");
 define("EMAIL_SMTP_PORT", 465);
 define("EMAIL_SMTP_ENCRYPTION", "ssl");
+define("EMAIL_FOOTER_AND_SIGNATURE", "\n\nIf you have any questions, please contact the Volunteer Coordinator Erika Johnson at emjohnso@uab.edu or EAB's IT Team at eabitteam@gmail.com.\n\nSincerely,\nEAB's MOM (Medical Office Manager)");
 
 /**
  * Configuration for: password reset email data
