@@ -21,6 +21,17 @@
   
   <body>
   
+    <!-- Google analytics code -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-58784601-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+    
     <!-- Navigation Bar -->
     <nav class="navbar navbar-fixed-top navbar-eab" role="navigation">
       <div class="container">
@@ -179,18 +190,6 @@ if(isset($_GET['require_verify']) && $login->isUserLoggedIn() == true)
     </script>
 	";
 }
-
-// Trigger error log modal
-if(isset($_SESSION['error_log']))
-{
-	echo "
-    <script>
-      $(document).ready(function() {
-        $('#error_log_modal').modal('toggle');
-      });
-    </script>
-	";
-}
 ?>
 
     <!-- Sign-In Modal -->
@@ -207,11 +206,12 @@ if(isset($_SESSION['error_log']))
           <div class="modal-body">
             <h2 class="modal-body-header">Login</h2>
             
-            <!-- Form using PHP-Login -->
-              <!-- Action is the current loction on the server -->
-              <!-- The login object is on each page so this works fine -->
-              <!-- This CANNOT be blank as the "?logout" $_GET variable needs to be reset upon submission, otherwise the login object will close the session due to the logout command-->
-
+<?php
+            // Form using PHP-Login
+              // Action is the current loction on the server
+              // The login object is on each page so this works fine
+              // This CANNOT be blank as the "?logout" $_GET variable needs to be reset upon submission, otherwise the login object will close the session due to the logout command
+?>
             <form id="signin_form" role="form" method="post" action="<?php echo $_SERVER['SCRIPT_NAME'] ?>">
               <div class="form-group">
                 <input id="user_name" class="form-control login_input" type="text" name="user_name" placeholder="User Name" required />
@@ -363,33 +363,6 @@ if (isset($registration))
           <div class="modal-body">
             <h4 class="modal-body-header"><strong>Required Account Verification</strong></h4>
             <p>Please <a href="/account/verify.php">verify your account</a> before accessing that page</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-eab" data-dismiss="modal">Ok</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Error log modal -->
-    <div class="modal fade" id="error_log_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-              <span aria-hidden="true">&times;</span>
-              <span class="sr-only">Close</span>
-            </button>
-            <img class="modal-logo" src="/images/EABLogo.png" alt="EAB Logo" />
-          </div>
-          <div class="modal-body">
-            <h4 class="modal-body-header"><strong>Error Log</strong></h4>
-<?php
-foreach($_SESSION['error_log'] as $error_log)
-{
-	echo "<p>$error_log</p>";
-}
-?>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-eab" data-dismiss="modal">Ok</button>
