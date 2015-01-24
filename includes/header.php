@@ -50,15 +50,22 @@ $login = new Login();
 $permissions = new Permissions();
 
 // Method of requiring login on a page
-if($login->isUserLoggedIn() == false && $require_login == true)
+if($login->isUserLoggedIn() == false && isset($require_login))
 {
 
 	header("Location: /index.php?logout");
 	exit();
 }
 
+// Method or requiring no login on a page
+if($login->isUserLoggedIn() == true && isset($require_no_login))
+{
+	header("Location: /index.php");
+	exit();
+}
+
 // Method of requiring admin on a page
-if($permissions->isUserAdmin() == false && $require_admin == true)
+if($permissions->isUserAdmin() == false && isset($require_admin))
 {
 	header("Location: /index.php?logout");
 	exit();
@@ -74,7 +81,7 @@ if($_POST['login'] && $login->isUserLoggedIn() == false)
 
 // Redirects user to the verify page if their account is not verified (header does not work if user is on the verify page to prevent redirect loop)
 // An unverified user has no choice but to verify account upon login as no other page will work without verification
-if($login->isUserLoggedIn() == true && $login->isUserVerified() == false && $verify_page == false)
+if($login->isUserLoggedIn() == true && $login->isUserVerified() == false && !isset($verify_page))
 {
 	header("Location: /account/verify.php");
 	exit();

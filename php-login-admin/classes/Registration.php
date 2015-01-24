@@ -242,7 +242,7 @@ class Registration
 		
 		// Body of the email
 		$mail->Body = EMAIL_NEW_ACCOUNT_BODY . "User Name: $user_name\nPassword: $user_password" . EMAIL_FOOTER_AND_SIGNATURE;
-S
+
 		if(!$mail->Send()) {
 			$this->errors[] = MESSAGE_NEW_ACCOUNT_MAIL_NOT_SENT . $mail->ErrorInfo;
 			return false;

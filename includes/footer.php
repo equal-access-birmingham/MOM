@@ -140,7 +140,7 @@ if($directory != "/mom/" && $login->isUserLoggedIn() == false)
           
           <!-- EAB Video -->
           <div class="col-sm-4">
-            <iframe src="http://player.vimeo.com/video/37989682?title=0&byline=0&portrait=0&color=1e6b52" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+            <iframe src="https://player.vimeo.com/video/37989682?title=0&byline=0&portrait=0&color=1e6b52" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
           </div>
         </div>
       </div>
