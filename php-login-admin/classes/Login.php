@@ -33,6 +33,10 @@ class Login
 	/**
 	 * @var boolean $user_account_verfied determines account verification status
 	 */
+	private $user_account_expired = false;
+	/**
+	 * @var boolean $user_account_verfied determines account verification status
+	 */
 	private $user_is_verified = false;
 	/**
 	 * @var string $user_gravatar_image_url The user's gravatar profile pic url (or a default one)
@@ -1004,6 +1008,7 @@ class Login
 		// Determine if the account is valid or within the grace period
 		if($this->verifyAccount($user_name) == false && $date_interval->format("%d")>= 3) {
 			// User has not changed password and password is more than three days old
+			$this->user_account_expired = true;
 			$this->errors[] = MESSAGE_INVALID_ACCOUNT;
 			return false;
 		} elseif($this->verifyAccount($user_name) == false && $date_interval->format("%d") < 3) {
@@ -1014,6 +1019,11 @@ class Login
 
 		// default return
 		return true;
+	}
+
+	public function isAccountExpired()
+	{
+		return $this->user_account_expired;
 	}
 
 	/**

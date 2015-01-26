@@ -1,4 +1,6 @@
 <?php
+$require_no_login = true;
+
 $path_to_root = str_repeat("../", substr_count($_SERVER['SCRIPT_NAME'], "/") - 1);
 require_once($path_to_root . "includes/header.php");
 ?>

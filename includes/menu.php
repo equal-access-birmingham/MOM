@@ -144,10 +144,11 @@ if($permissions->isUserAdmin() == false)
 <?php
 // Note: all modal triggers must go in here in order to have the javascript at the end of the file for website speed optimization
 
-// Calls the incorrect modal if someone attempts to login but fails
+// Calls the incorrect modal if someone attempts to login but fails and the user's account has not expired (an error modal controlled by the login object will fire then)
 if(isset($login))
 {
-	if((isset($_POST['login']) || isset($_GET['incorrectLogin'])) && $login->isUserLoggedIn() == false)
+	// The $_GET['incorrectLogin'] comes from a header redirect that detects an incorrect password entry
+	if((isset($_GET['incorrectLogin'])) && $login->isUserLoggedIn() == false && $login->isAccountExpired() == false)
 	{
 		echo "
     <script>

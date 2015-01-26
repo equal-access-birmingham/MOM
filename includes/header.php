@@ -49,6 +49,15 @@ $login = new Login();
 // create a permissions object. it will handle permission checking and changing for the accounts
 $permissions = new Permissions();
 
+// Sends logout signal and incorrect password signal
+// Needed for those that click directly on MOM link as it will do a redirect with incorrect login with no information sent without $_GET variables placed
+// Also, checking to see if an account is expired since an error modal from the login object should fire rather than the incorrect login modal
+if($_POST['login'] && $login->isUserLoggedIn() == false && $login->isAccountExpired() == false)
+{
+	header("Location: /index.php?logout&incorrectLogin");
+	exit();
+}
+
 // Method of requiring login on a page
 if($login->isUserLoggedIn() == false && isset($require_login))
 {
@@ -71,13 +80,6 @@ if($permissions->isUserAdmin() == false && isset($require_admin))
 	exit();
 }
 
-// Sends logout signal and incorrect password signal
-// Needed for those that click directly on MOM link as it will do a redirect with incorrect login with no information sent without $_GET variables placed
-if($_POST['login'] && $login->isUserLoggedIn() == false)
-{
-	header("Location: /index.php?logout&incorrectLogin");
-	exit();
-}
 
 // Redirects user to the verify page if their account is not verified (header does not work if user is on the verify page to prevent redirect loop)
 // An unverified user has no choice but to verify account upon login as no other page will work without verification
