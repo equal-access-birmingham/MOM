@@ -68,7 +68,7 @@ $query = "SELECT `temp4`.`role_name`, `temp4`.`program_name`, `temp4`.`date`, `t
 	) AS `temp4`
 	LEFT JOIN `location_table`
 	ON `temp4`.`location_id` = `location_table`.`location_id`
-	WHERE DATE(`temp4`.`date`) > :current_date
+	WHERE DATE(`temp4`.`date`) >= :current_date
 	ORDER BY `temp4`.`date` ASC;";
 
 $stmt_user_schedule = $con->prepare ($query);

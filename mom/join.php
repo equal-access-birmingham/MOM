@@ -122,8 +122,8 @@ while($result = $stmt->fetch())
             <td><input type=\"radio\" name=\"login_relation_id\" value=\"" . $result['login_relation_id'] . "\" /></td>
             <td>" . $result['fname'] . "</td>
             <td>" . $result['lname'] . "</td>
-            <td><a href=\"mailto:" . $result['user_email'] . "\">" . $result['user_email'] . "</a></td>
             <td><a href=\"tel:$phone_number_link\">" . $phone_number . "</a></td>
+            <td><a href=\"mailto:" . $result['user_email'] . "\">" . $result['user_email'] . "</a></td>
             <td>" . $result['level_name'] . "</td>
             <td>" . $result['position_name'] . "</td>
           </tr>
