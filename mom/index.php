@@ -214,13 +214,17 @@ $date_signup_confirm = new DateTime($result_program_info['date']);
           </div>
           <div class="modal-body">
             <h2 class="modal-body-header">Sign Up Confirmation</h2>
-            <p>Volunteer times can only be switched with admin approval.</p>
             <p>Is the following information correct?</p>
             <ul>
               <li> Program Name: <?php echo $result_program_info['program_name']; ?></li>
               <li> Date: <?php echo $date_signup_confirm->format("F j, Y"); ?></li>
               <li> Role Name: <?php echo $result_role_info['role_name']; ?></li>
             </ul>
+            <hr />
+            <p>
+              Reminder: The volunteer time you are about to sign up for above can only be 
+              switched with admin approval.
+            </p>
           </div>
           <div class="modal-footer">
             <?php echo "<a href=\"?confirm=1&login_relation_id=$login_relation_id&date=$program_relation_id&role=$role_id\" class=\"btn btn-success\">Yes</a>\n"; ?>
