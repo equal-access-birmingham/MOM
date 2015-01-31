@@ -227,6 +227,7 @@ if($insert_ok) //(insertion successful)
 	// echo information
 	echo "
             <ul>
+              <li>" . $result_login_relation_id['fname'] . " " . $result_login_relation_id['lname'] . "</li>
               <li>" . $result_program_name['program_name'] . "</li>
               <li>" . $date_object->format("F j, Y") . "</li>
               <li>" . $result_role_name['role_name'] . "</li>
