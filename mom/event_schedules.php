@@ -395,13 +395,16 @@ foreach($programs as $program_id => $program)
         var year = $("#year").val();
 
         // Creates the date object and sets the year and month to those selected by the user
-        var day = new Date();
+        // The date is set generically as Date() pulls from now otherwise and getMonth will not pull the correct month if the current day is not in month chosen
+        // i.e. if the day is the 31st of the month and the user selects the month of June, getMonth will automatically select July because there aren't 31 days in June
+        var day = new Date("January 1, 1970 00:00:00");
         day.setFullYear(year);
         day.setMonth(month - 1);
 
         // Arrays for the months with different days (February is excluded as an odd-ball)
-        thirty_days = [4, 6, 9, 11];
-        thirty_one_days = [1, 3, 5, 7, 8, 10, 12];
+        // Note that JavaScript starts with "January" as month 0... :P
+        thirty_days = [3, 5, 8, 10];
+        thirty_one_days = [0, 2, 4, 6, 7, 9, 11];
 
         // If the month or year are blank, tell user to fill these our first
         if(month == "" || year == "")
