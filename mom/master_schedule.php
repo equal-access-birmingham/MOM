@@ -397,11 +397,13 @@ while($result = $stmt_programs->fetch())
         else
         {
           // The number of days in the month (based on above arrays) determines how many days are checked
-          if($.inArray(day.getMonth(), thirty_days) > -1)
+          // Note that JavaScript treats January as 0 (from getMonth), so 1 is added to value
+          if($.inArray(day.getMonth()+1, thirty_days) > -1)
           {
             writeOptions(day_elem, day, 30);
           }
-          else if($.inArray(day.getMonth(), thirty_one_days) > -1)
+          // Note that JavaScript treats January as 0 (from getMonth), so 1 is added to value
+          else if($.inArray(day.getMonth()+1, thirty_one_days) > -1)
           {
             writeOptions(day_elem, day, 31);
           }
