@@ -62,7 +62,7 @@ $query = "SELECT `program_name_info`.*, `users`.`user_email`
 	) AS `program_name_info`
 	INNER JOIN `users`
 	ON `program_name_info`.`user_id` = `users`.`user_id`
-	WHERE `program_name_info`.`fname` COLLATE UTF8_GENERAL_CI LIKE :fname AND `program_name_info`.`lname` COLLATE UTF8_GENERAL_CI LIKE :lname AND DATE(`program_name_info`.`date`) > :current_date";
+	WHERE `program_name_info`.`fname` COLLATE UTF8_GENERAL_CI LIKE :fname AND `program_name_info`.`lname` COLLATE UTF8_GENERAL_CI LIKE :lname AND DATE(`program_name_info`.`date`) >= :current_date";
 
 /**
  * Setting limitations for dropdowns dynamically because these use number and can't use SQL LIKE
