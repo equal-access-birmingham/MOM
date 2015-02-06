@@ -58,7 +58,7 @@
     </div>
 
     <!-- Picture Section Break -->
-    <div class="picture-div volunteer-div1-img"></div>
+    <div class="picture-div volunteer-how-to-img"></div>
 
     <!-- How to View Schedule -->
     <div class="container">
@@ -82,7 +82,7 @@
     </div>
 
     <!-- Picture Section Break -->
-    <div class="picture-div volunteer-div2-img"></div>
+    <div class="picture-div volunteer-schedule-img"></div>
 
     <!-- How to Switch Schedule -->
     <div class="container">
@@ -106,7 +106,7 @@
     </div>
 
     <!-- Picture Section Break -->
-    <div class="picture-div volunteer-div3-img"></div>
+    <div class="picture-div volunteer-switching-img"></div>
 
     <div id="role_descriptions" class="container">
       <h1>Volunteer Roles</h1>
