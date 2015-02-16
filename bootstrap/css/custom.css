@@ -380,6 +380,10 @@ html, body {
 	.vcenter-ht-500 {
 		height: 100px;
 	}
+
+	.vcenter-ht-350 {
+		height: 70px;
+	}
 }
 
 /* Below are classes to display images properly while centered vertically */
