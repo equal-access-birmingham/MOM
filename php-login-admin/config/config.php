@@ -34,8 +34,8 @@ define("DB_PASS", "Kd3Zgr46gwlQgbavgC4f116F6bv2P1SP");
  * COOKIE_SECRET_KEY: Put a random value here to make your app more secure. When changed, all cookies are reset.
  */
 define("COOKIE_RUNTIME", 1209600);
-define("COOKIE_DOMAIN", ".path.uab.edu");
-define("COOKIE_SECRET_KEY", "836LIrz667K6d957tfWdA8OX");
+define("COOKIE_DOMAIN", "192.168.56.103");
+define("COOKIE_SECRET_KEY", "hldI4exn9bdN2M9y0jP2219M");
 
 /**
  * Configuration for: Email server credentials
@@ -64,19 +64,19 @@ define("COOKIE_SECRET_KEY", "836LIrz667K6d957tfWdA8OX");
 define("EMAIL_USE_SMTP", true);
 define("EMAIL_SMTP_HOST", "ssl://smtp.gmail.com");
 define("EMAIL_SMTP_AUTH", true);
-define("EMAIL_SMTP_USERNAME", "iteabirmingham");
-define("EMAIL_SMTP_PASSWORD", "x24587Z52S5lZ1WmYq83d09fF82EB86L");
+define("EMAIL_SMTP_USERNAME", "developmentdummi");
+define("EMAIL_SMTP_PASSWORD", "loVrXeMen9Ra3VpD2MahR74K91uIK83f");
 define("EMAIL_SMTP_PORT", 465);
 define("EMAIL_SMTP_ENCRYPTION", "ssl");
-define("EMAIL_FOOTER_AND_SIGNATURE", "\n\nIf you have any questions, please contact the Volunteer Coordinator Erika Johnson at emjohnso@uab.edu or EAB's IT Team at eabitteam@gmail.com.\n\nSincerely,\nEAB's MOM (Medical Office Manager)");
+define("EMAIL_FOOTER_AND_SIGNATURE", "\n\nIf you have any questions, please contact the Volunteer Coordinator Hannah Bowers at hbowers@uab.edu or EAB's IT Team at eabitteam@gmail.com.\n\nSincerely,\nEAB's MOM (Medical Office Manager)");
 
 /**
  * Configuration for: password reset email data
  * Set the absolute URL to password_reset.php, necessary for email password reset links
  */
-define("EMAIL_PASSWORDRESET_URL", "http://localhost/account/password_reset.php");
+define("EMAIL_PASSWORDRESET_URL", "http://192.168.56.103/account/password_reset.php");
 define("EMAIL_PASSWORDRESET_FROM", "no-reply@eab.com");
-define("EMAIL_PASSWORDRESET_FROM_NAME", "Equal Access Birmingham");
+define("EMAIL_PASSWORDRESET_FROM_NAME", "No Reply | Equal Access Birmingham");
 define("EMAIL_PASSWORDRESET_SUBJECT", "Password reset for EAB Website");
 define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your password:");
 
@@ -85,18 +85,18 @@ define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your p
  * Emails the new user with a user name and random password (see Registration.php for more info)
  */
 define("EMAIL_NEW_ACCOUNT_FROM", "no-reply@eab.com");
-define("EMAIL_NEW_ACCOUNT_FROM_NAME", "Equal Access Birmingham");
+define("EMAIL_NEW_ACCOUNT_FROM_NAME", "No Reply | Equal Access Birmingham");
 define("EMAIL_NEW_ACCOUNT_SUBJECT", "New Account for Equal Access Birmingham");
-define("EMAIL_NEW_ACCOUNT_BODY", "You have been signed up for a new account at Equal Access Birmingham (eab.path.uab.edu).  Below is your user name and temporary password, which will expire in 3 days.  Please login, click on \"Profile\" and select \"Verify Account\" to verify your account.");
+define("EMAIL_NEW_ACCOUNT_BODY", "You have been signed up for a new account at Equal Access Birmingham (eab.path.uab.edu).  Below is your user name and temporary password, which will expire in 3 days.\n\n");
 
 /**
  * Configuration for: account reset email
  * Much the same as registering, but this is for an outdated account
  */
 define("EMAIL_RESET_ACCOUNT_FROM", "no-reply@eab.com");
-define("EMAIL_RESET_ACCOUNT_FROM_NAME", "Equal Access Birmingham");
+define("EMAIL_RESET_ACCOUNT_FROM_NAME", "No Reply | Equal Access Birmingham");
 define("EMAIL_RESET_ACCOUNT_SUBJECT", "Your Account with Equal Access Birmingham Has Been Reset");
-define("EMAIL_RESET_ACCOUNT_BODY", "Your account has been reset.  Below are your new user name and temporary password, which will expire in 3 days.");
+define("EMAIL_RESET_ACCOUNT_BODY", "Your account has been reset.  Below are your new user name and temporary password, which will expire in 3 days.\n\n");
 
 /**
  * Configuration for: Hashing strength

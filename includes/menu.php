@@ -230,7 +230,7 @@ if(isset($_GET['require_verify']) && $login->isUserLoggedIn() == true)
               </div>
             </form>
 
-            <a href="account/password_reset.php">I forgot my password</a>
+            <a href="account/password_reset.php">I forgot my password</a><br />
           </div>
         </div>
       </div>

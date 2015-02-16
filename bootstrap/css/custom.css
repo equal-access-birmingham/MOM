@@ -302,6 +302,10 @@ html, body {
 	margin-bottom: 30px;
 }
 
+.top-header-padding {
+	padding-top: 30px;
+}
+
 .body-section-padding {
 	padding-bottom: 80px;
 }
@@ -361,6 +365,10 @@ html, body {
 /* List of vertically centered div heights */
 .vcenter-ht-500 {
 	height: 500px;
+}
+
+.vcenter-ht-350 {
+	height: 350px;
 }
 
 /* Must be used with bootstrap's small columns because of this */
@@ -506,12 +514,12 @@ html, body {
 
 /* Image for carousel under slide "Who We Are" */
 .eab-img {
-	background-image: url("../../images/AboutEAB.jpg");
+	background-image: url("../../images/about_eab.jpg");
 }
 
 /* Image used for generic donate image on carousel when no active fundraisers are taking place */
 .donate-img {
-	background-image: url("../../images/generic_donate_b&w.jpg");
+	background-image: url("../../images/generic_donate.jpg");
 }
 
 /* Location image of carousel */
@@ -542,18 +550,18 @@ html, body {
 }
 
 /* First division image for volunteer information page */
-.volunteer-div1-img {
-	background-image: url("../../images/volunteers/pharmacy_schedule.jpg");
+.volunteer-how-to-img {
+	background-image: url("../../images/volunteers/how_to_volunteer.jpg");
 }
 
 /* Second division image for volunteer information page */
-.volunteer-div2-img {
-	background-image: url("../../images/volunteers/officers.jpg");
+.volunteer-schedule-img {
+	background-image: url("../../images/volunteers/pharmacy_schedule.jpg");
 }
 
 /* Third division image for volunteer information page */
-.volunteer-div3-img {
-	background-image: url("../../images/volunteers/steven.jpg");
+.volunteer-switching-img {
+	background-image: url("../../images/volunteers/switching_schedule.jpg");
 }
 
 /* Patients Page */

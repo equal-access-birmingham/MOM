@@ -92,8 +92,8 @@
             <h1>Switching Your Schedule</h1>
             <p class="lead">
               Can't make your volunteer time?  Just find someone to switch with and then 
-              contact EAB's volunteer coordinator Erika Johnson at 
-              <a href="mailto:emjohnso@uab.edu">emjohnso@uab.edu</a>.  
+              contact EAB's volunteer coordinator Hannah Bowers at 
+              <a href="mailto:emjohnso@uab.edu">hbowers@uab.edu</a>.  
             </p>
           </div>
         </div>

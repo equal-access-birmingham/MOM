@@ -275,7 +275,7 @@ if(isset($_GET['confirm']))
 	//if the user has already signed up for the selected day, inform them that they cannot do so twice
 	else
 	{
-		echo "            <p>Error: you cannot sign up twice for the same day. Please contact EAB's Volunteer Coordinator <a href=\"mailto:emjohnso@uab.edu\">Erika Johnson</a> if you have any questions.</p>";
+		echo "            <p>Error: you cannot sign up twice for the same day. Please contact EAB's Volunteer Coordinator <a href=\"mailto:hbowers@uab.edu\">Hannah Bowers</a> if you have any questions.</p>";
 	}
 }
 ?>
