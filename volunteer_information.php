@@ -123,9 +123,11 @@
             <div class="panel-body">
               <p><strong>Description:</strong></p>
               <p>
-                This position, at both EAB and M-Power, is responsible for seeing the 
-                patient before the physician and taking as much of a history and 
-                physical as possible.  The medical H&amp;P student will then present 
+                This position, which exists for the EAB Clinic, the EAB Mental 
+                Health Clinic, and M-Power, is responsible for seeing the 
+                patient before the physician.  During this initial visit, the student
+                will take a history and as much of a relevant physical as physical 
+                as possible.  The medical H&amp;P student will then present 
                 the information to the physician before they both visit the patient in 
                 order to make a final assessment and plan.
               </p>
@@ -149,11 +151,12 @@
             <div class="panel-body">
               <p><strong>Description:</strong></p>
               <p>
-                This position, which is currently only at EAB, is responsible for 
-                joining the medical H&amp;P student in order cooperatively take a history 
-                with a pharmacotherapy emphasis.  The pharmacy H&amp;P then presents to 
-                the physician with the medical H&amp;P before all go see the patient to 
-                make a final assessment and plan.
+                This position, which is currently only at the EAB Clinic, is 
+                responsible for joining the medical H&amp;P student in order to 
+                cooperatively take a history with a pharmacotherapy emphasis.  
+                The pharmacy H&amp;P then presents to the physician and pharmacist 
+                with the medical H&amp;P before going to see the patient to make 
+                a final assessment and plan.
               </p>
               <p><strong>Requirements:</strong></p>
               <p>
