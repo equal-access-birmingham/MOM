@@ -40,6 +40,12 @@ require_once($path_to_root . 'php-login-admin/classes/Registration.php');
 // create a registration object.  it will handle all registration necessary
 $registration = new Registration();
 
+/* ===========================================================================
+ * auto_account.php
+ * ===========================================================================
+ * Automatically sets up accounts from an email list and then emails users
+ * ===========================================================================*/
+
 /**
  * Begin actual file contents
  */
