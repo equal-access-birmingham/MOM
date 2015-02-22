@@ -44,6 +44,7 @@ $registration = new Registration();
  * auto_account.php
  * ===========================================================================
  * Automatically sets up accounts from an email list and then emails users
+ * This file can only be run from the command line
  * ===========================================================================*/
 
 /**
