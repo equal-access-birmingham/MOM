@@ -43,9 +43,9 @@
           <div class="vcenter vcenter-ht-500">
             <h1>How to Volunteer</h1>
             <p class="lead">
-              It’s easy.  Just click on Medical Office Manager under the Volunteers tab and sign 
-              in.  Then pick the place, time, and role you would like to fill and you’re 
-              done.
+              It’s easy.  Just click on Medical Office Manager under the 
+              Volunteers tab and sign in.  Then pick the place, time, and role 
+              you would like to fill and you’re done.
             </p>
           </div>
         </div>
@@ -73,8 +73,8 @@
             <h1>Where to View Your Schedule</h1>
             <p class="lead">
               Want to check the time you volunteered?  No problem, just sign in 
-              to the Medical Office Manager and click on “My Schedule” to check the times that 
-              you’ve signed up for.
+              to the Medical Office Manager and click on “My Schedule” to check 
+              the times that you’ve signed up for.
             </p>
           </div>
         </div>
@@ -91,8 +91,8 @@
           <div class="vcenter vcenter-ht-500">
             <h1>Switching Your Schedule</h1>
             <p class="lead">
-              Can't make your volunteer time?  Just find someone to switch with and then 
-              contact EAB's volunteer coordinator Hannah Bowers at 
+              Can't make your volunteer time?  Just find someone to switch with 
+              and then contact EAB's volunteer coordinator Hannah Bowers at 
               <a href="mailto:emjohnso@uab.edu">hbowers@uab.edu</a>.  
             </p>
           </div>
@@ -125,16 +125,16 @@
               <p>
                 This position, which exists for the EAB Clinic, the EAB Mental 
                 Health Clinic, and M-Power, is responsible for seeing the 
-                patient before the physician.  During this initial visit, the student
-                will take a history and as much of a relevant physical as physical 
-                as possible.  The medical H&amp;P student will then present 
-                the information to the physician before they both visit the patient in 
-                order to make a final assessment and plan.
+                patient before the physician.  During this initial visit, the 
+                student will take a history and as much of a relevant physical 
+                as possible.  The medical H&amp;P student will then present the 
+                information to the physician before they both visit the patient 
+                in order to make a final assessment and plan.
               </p>
               <p><strong>Requirements:</strong></p>
               <p>
-                Volunteers for this position must currently be in medical school at 
-                UAB.
+                Volunteers for this position must currently be in medical school 
+                at UAB.
               </p>
             </div>
           </div>
@@ -154,14 +154,14 @@
                 This position, which is currently only at the EAB Clinic, is 
                 responsible for joining the medical H&amp;P student in order to 
                 cooperatively take a history with a pharmacotherapy emphasis.  
-                The pharmacy H&amp;P then presents to the physician and pharmacist 
-                with the medical H&amp;P before going to see the patient to make 
-                a final assessment and plan.
+                The pharmacy H&amp;P then presents to the physician and 
+                pharmacist with the medical H&amp;P before going to see the 
+                patient to make a final assessment and plan.
               </p>
               <p><strong>Requirements:</strong></p>
               <p>
-                Volunteers for this position must be enrolled in one of the nearby 
-                pharmacy schools (Auburn or Samford).
+                Volunteers for this position must be enrolled in one of the 
+                nearby pharmacy schools (Auburn or Samford).
               </p>
             </div>
           </div>
@@ -178,10 +178,10 @@
             <div class="panel-body">
               <p><strong>Description:</strong></p>
               <p>
-                This position is responsible for filling and dispensing medications 
-                at EAB.  The dispensary leader’s duties include medication 
-                prescription entry into the pharmacy database, filling prescriptions, 
-                and managing any dispensary assistants.
+                This position is responsible for filling and dispensing 
+                medications at EAB.  The dispensary leader’s duties include 
+                medication prescription entry into the pharmacy database, 
+                filling prescriptions, and managing any dispensary assistants.
               </p>
               <p><strong>Requirements:</strong></p>
               <p>
@@ -203,13 +203,14 @@
             <div class="panel-body">
               <p><strong>Description:</strong></p>
               <p>
-                This position is responsible for working with the dispensary leader 
-                in order to manage and fill incoming prescriptions.
+                This position is responsible for working with the dispensary 
+                leader in order to manage and fill incoming prescriptions.
               </p>
               <p><strong>Requirements:</strong></p>
               <p>
-                Volunteers at this position can be medical students at UAB, pharmacy 
-                students at Samford or Auburn, or pre-med undergraduates at UAB.
+                Volunteers at this position can be medical students at UAB, 
+                pharmacy students at Samford or Auburn, or pre-med 
+                undergraduates at UAB.
               </p>
             </div>
           </div>
@@ -226,15 +227,16 @@
             <div class="panel-body">
               <p><strong>Description:</strong></p>
               <p>
-                This role is an opportunity for both pre-med undergraduates and MS1's to 
-                experience the clinic first-hand.  For undergraduates, this is a good way to 
-                take a look into the medical field.  For MS1's, this role is a great 
-                opportunity to become familiar with the clinic for later volunteering.
+                This role is an opportunity for both pre-med undergraduates and 
+                MS1's to experience the clinic first-hand.  For undergraduates, 
+                this is a good way to take a look into the medical field.  For 
+                MS1's, this role is a great opportunity to become familiar with 
+                the clinic for later volunteering.
               </p>
               <p><strong>Requirements:</strong></p>
               <p>
-                Volunteers at this position can be medical students at UAB or pre-med 
-                undergraduates at UAB.
+                Volunteers at this position can be medical students at UAB or 
+                pre-med undergraduates at UAB.
               </p>
             </div>
           </div>

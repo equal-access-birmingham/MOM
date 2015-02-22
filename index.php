@@ -141,7 +141,7 @@
           <div class="col-sm-4">
             <div class="trifecta volunteer">
               <h3>Service Mission</h3>
-              <a class="btn btn-eab" href="coming_soon.php">Learn More</a>
+              <a class="btn btn-eab" href="about.php">Learn More</a>
             </div>
           </div>
           <div class="col-sm-4">
