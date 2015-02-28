@@ -1021,8 +1021,17 @@ class Login
 		return true;
 	}
 
-	public function isAccountExpired()
+	/**
+	 * Checks if an account is expired by returning the value of $this->user_account_expired
+	 * Takes an optional argument of the $user_name for checking a specific user name
+	 * Otherwise, the function will return the status of the currently logged in user account
+	 */
+	public function isAccountExpired($user_name = null)
 	{
+		if($user_name)
+		{
+			$this->denyLogin($user_name);
+		}
 		return $this->user_account_expired;
 	}
 
