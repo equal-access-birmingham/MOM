@@ -40,13 +40,6 @@ require_once($path_to_root . 'php-login-admin/classes/Registration.php');
 // create a registration object.  it will handle all registration necessary
 $registration = new Registration();
 
-/* ===========================================================================
- * auto_account.php
- * ===========================================================================
- * Automatically sets up accounts from an email list and then emails users
- * This file can only be run from the command line
- * ===========================================================================*/
-
 /**
  * Begin actual file contents
  */
@@ -74,6 +67,7 @@ while($email = fgets($email_file))
 	else
 	{
 		$registration->registerNewUser($email);
+		fwrite(STDOUT, "chown\n");
 
 		// print any messages from the registration object
 		if($registration->messages)
@@ -91,7 +85,7 @@ while($email = fgets($email_file))
 			foreach($registration->errors as $error)
 			{
 				fwrite(STDOUT, $email . ": " . $error . "\n");
-				$registration->messages = array();
+				$registration->errors = array();
 			}
 		}
 		else
