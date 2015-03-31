@@ -67,7 +67,6 @@ while($email = fgets($email_file))
 	else
 	{
 		$registration->registerNewUser($email);
-		fwrite(STDOUT, "chown\n");
 
 		// print any messages from the registration object
 		if($registration->messages)
