@@ -291,7 +291,7 @@ while($result = $stmt_programs->fetch())
       <form action="" method="post" role="form">
         <input type="submit" class="btn btn-default" name="delete_schedule" value="Delete Volunteer Times" /><br /><br />
         <div class="table-responsive">
-          <table id="master_schedule" class="table table-striped text-center">
+          <table id="master_schedule" class="table text-center">
           </table>
         </div>
       </form>

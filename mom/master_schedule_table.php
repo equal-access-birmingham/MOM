@@ -99,7 +99,7 @@ if($program)
 $stmt_signup_table->execute();
 
 echo "
-          <tr>
+          <tr class=\"bg-green\">
             <th class=\"text-center\">Select</th>
             <th class=\"text-center\">First Name</th>
             <th class=\"text-center\">Last Name</th>
@@ -111,18 +111,39 @@ echo "
           </tr>
 ";
 
+// Array of colors to alternate days of schedule
+$color_array = array("schedule-gold", "schedule-green");
+
+// Counts the dates for use in changing row color
+$date_cntr = 0;
+
+// Print out table contents
 while($result = $stmt_signup_table->fetch())
 {
 	$date = new DateTime($result['date']);
 
+	// Increments $date_cntr and adds date row each time new date exists
+	if($date != $old_date)
+	{
+		// Echo's date with color background for each new date
+		echo "
+          <tr class=\"" . $color_array[$date_cntr%count($color_array)] . " text-left\">
+            <td colspan=\"8\"><strong>" . $date->format('F j, Y') . "</strong></td>
+          </tr>";
+
+		$date_cntr++;
+	}
+
+	// Formats phone number appropriately (non-breaking dashes and spaces to keep everything on the same line)
 	$phone_number = str_replace("-", "&#8209;", $result['phone_number']);
 	$phone_number = str_replace(" ", "&nbsp;", $phone_number);
 
+	// Reformats the phone number for use in the link
 	$replace_array = array("(", ")", " ", "-");
 	$phone_number_link = str_replace($replace_array, "", $result['phone_number']);
 	
 	echo "
-          <tr>
+          <tr class=\"schedule-white\">
             <td><input type=\"checkbox\" name=\"delete_schedule[]\" value=\"" . $result['signup_id'] . "\" /></td>
             <td>" . $result['fname'] . "</td>
             <td>" . $result['lname'] . "</td>
@@ -132,6 +153,9 @@ while($result = $stmt_signup_table->fetch())
             <td>" . $date->format("F j, Y") . "</td>
             <td>" . $result['role_name'] . "</td>
           </tr>
-";
+	";
+
+	// Saves the date used for comparison with new one to check if it has changed
+	$old_date = $date;
 }
 ?>

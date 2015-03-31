@@ -100,7 +100,7 @@ if($program)
 $stmt_signup_table->execute();
 
 echo "
-          <tr>
+          <tr class=\"bg-green\">
             <th class=\"text-center\">First Name</th>
             <th class=\"text-center\">Last Name</th>
             <th class=\"text-center\">Email</th>
@@ -110,9 +110,30 @@ echo "
           </tr>
 ";
 
+// Array of colors to alternate days of schedule
+$color_array = array("schedule-gold", "schedule-green");
+
+// Counts the dates for use in changing row color
+$date_cntr = 0;
+
+// Print out table contents
 while($result = $stmt_signup_table->fetch())
 {
 	$date = new DateTime($result['date']);
+
+	// Increments $date_cntr and adds date row each time new date exists
+	if($date != $old_date)
+	{
+		// Echo's date with color background for each new date
+		echo "
+          <tr class=\"" . $color_array[$date_cntr%count($color_array)] . " text-left\">
+            <td colspan=\"6\"><strong>" . $date->format('F j, Y') . "</strong></td>
+          </tr>";
+
+		$date_cntr++;
+	}
+
+
 	echo "
           <tr>
             <td>" . $result['fname'] . "</td>
@@ -122,6 +143,10 @@ while($result = $stmt_signup_table->fetch())
             <td>" . $date->format("F j, Y") . "</td>
             <td>" . $result['role_name'] . "</td>
           </tr>
-";
+	";
+
+	// Saves the date used for comparison with new one to check if it has changed
+	$old_date = $date;
+
 }
 ?>

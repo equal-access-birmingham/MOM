@@ -20,7 +20,7 @@ html, body {
 	font-weight: bold;
 	width: 100px;
 	margin-left: 10px;
-	float: right;
+	float: right;vcenter-ht-500
 }
 
 /* Modals */
@@ -314,7 +314,7 @@ html, body {
 	background: #31704b;
 }
 
-.bg-green h1 {
+.bg-green h1, .bg-green th {
 	color: #fff;
 }
 
@@ -451,6 +451,25 @@ html, body {
 	.picture-div {
 		height: 200px;
 	}
+}
+
+/**
+ * Schedule table colors
+ */
+.schedule-green {
+	background-color: #87cba3;
+}
+
+.schedule-gold {
+	background-color: #d1cc87;
+}
+
+.schedule-white {
+	background-color: #fff;
+}
+
+.schedule-gray {
+	background-color: #f9f9f9;
 }
 
 /**

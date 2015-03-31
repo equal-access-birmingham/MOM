@@ -306,7 +306,7 @@ foreach($programs as $program_id => $program)
 
       <h3>View Schedule</h3>
       <div class="table-responsive">
-        <table id="master_schedule" class="table table-striped text-center">
+        <table id="master_schedule" class="table text-center">
         </table>
       </div>
 
