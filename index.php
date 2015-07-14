@@ -51,16 +51,16 @@
         </div>
        
         <!-- Image 2 -->
-        <div class="item carousel-image donate-img">
+        <div class="item carousel-image race-home-img">
           <div class="carousel-caption">
             <div class="background-highlight">
               <div class="container text-left">
                 <div class="row">
                   <div class="col-sm-7">
-                    <a href="https://www.uab.edu/give/now/index.php?option=com_rsform&formId=4&fundid=809|Equal%20Access%20Birmingham" target="_blank"><h1>With Your Help</h1></a>
+                    <a href="http://www.active.com/birmingham-al/running/distance-running-races/eab-heart-and-sole-5k-2015?int=" target="_blank"><h1>Heart + Sole 5K/Fun Run</h1></a>
                     <p class="lead">
-                      EAB wouldn't be possible without support from you.  Thank you 
-                      for your help.
+                      Taking place on Saturday August 29, 2015 at UAB Campus Green at 8 AM!
+                      Come join in and support EAB.
                     </p>
                   </div>
                   <div class="col-xs-5 carousel-btn">
