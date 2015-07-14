@@ -64,7 +64,7 @@
                     </p>
                   </div>
                   <div class="col-xs-5 carousel-btn">
-                    <a class="btn btn-eab btn-lg hidden-xs" href="https://www.uab.edu/give/now/index.php?option=com_rsform&formId=4&fundid=809|Equal%20Access%20Birmingham" target="_blank">Donate Today</a>
+                    <a class="btn btn-eab btn-lg hidden-xs" href="http://www.active.com/birmingham-al/running/distance-running-races/eab-heart-and-sole-5k-2015?int=" target="_blank">Donate Today</a>
                   </div>
                 </div>
               </div>
