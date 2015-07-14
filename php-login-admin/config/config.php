@@ -34,7 +34,7 @@ define("DB_PASS", "Kd3Zgr46gwlQgbavgC4f116F6bv2P1SP");
  * COOKIE_SECRET_KEY: Put a random value here to make your app more secure. When changed, all cookies are reset.
  */
 define("COOKIE_RUNTIME", 1209600);
-define("COOKIE_DOMAIN", "192.168.56.103");
+define("COOKIE_DOMAIN", ".eabham.org");
 define("COOKIE_SECRET_KEY", "hldI4exn9bdN2M9y0jP2219M");
 
 /**

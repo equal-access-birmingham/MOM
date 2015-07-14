@@ -8,6 +8,11 @@
  ** To program_relation_table
  *
  * Also, queries in both view.php and admin_event_manage.php will have to be modified (unless a database access layer is in place)
+ *
+ * File modifications
+ ** Schedule event on top (Event create below)
+ ** Move event time to event create part
+ ** Make this a DAO
  */
 $require_login = true;
 $require_admin = true;
